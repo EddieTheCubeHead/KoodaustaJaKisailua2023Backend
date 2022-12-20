@@ -18,11 +18,11 @@ class Pokemon:  # route: /pokemon/{name}
     artwork_link: str
     types: list[str]
     abilities: list[str]
-    evolution_chain: EvolutionChain
+    evolution_chain: EvolutionChain | None
 
 
 @dataclass
-class ListPokemon:  # route: /pokemons
+class ListPokemon:  # route: /pokemons?start=0:
     name: str
     pokedex_number: int
     sprite_link: str

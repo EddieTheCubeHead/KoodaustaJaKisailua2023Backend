@@ -1,13 +1,16 @@
 from fastapi import FastAPI
 
+from api import get_pokemon
+from models import Pokemon
+
 app = FastAPI()
 
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def root() -> Pokemon:
+    return get_pokemon("bulbasaur")
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.get("/pokemon/{name}")
+async def get_pokemon(name: str):
+    return get_pokemon(name)
