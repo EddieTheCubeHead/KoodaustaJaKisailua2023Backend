@@ -1,7 +1,7 @@
 import requests
 
-from deserialization import deserialize_pokemon
-from models import Pokemon
+from src.deserialization import deserialize_pokemon
+from src.models import Pokemon
 
 
 def get_pokemon(name: str) -> Pokemon:

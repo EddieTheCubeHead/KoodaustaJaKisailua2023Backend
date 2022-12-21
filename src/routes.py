@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from api import get_pokemon
-from models import Pokemon
+from src.api import get_pokemon
+from src.models import Pokemon
 
 app = FastAPI()
 

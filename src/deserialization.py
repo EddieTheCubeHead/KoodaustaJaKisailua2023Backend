@@ -1,4 +1,4 @@
-from models import Pokemon
+from src.models import Pokemon
 
 
 def deserialize_pokemon(raw_json: dict) -> Pokemon:
