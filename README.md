@@ -21,7 +21,7 @@ Short explanations about how to set up and run the server and tests using VSCode
 
 ### Running the app
 
-- Run `uvicorn src.application:app --reload`
+- Run `uvicorn src.routes:app --reload`
 
 ### Re-activating venv if necessary
 
@@ -46,6 +46,6 @@ Short explanations about how to set up and run the server and tests using VSCode
 
 - Go to `Add configuration` or `Edit configurations` (top right, use dropdown if configurations exist)
 - From top-left in the pop-up window, choose "+" -> "FastAPI"
-- Set `src.application` as the application file (and add a name to the configuration if you want to)
+- Set `src.routes` as the application file (and add a name to the configuration if you want to)
 - Set the `Uvicorn options` field as `--reload`
 - Save and run the configuration
