@@ -37,9 +37,7 @@ class Type:  # route: /type/{name}
     defensive_multipliers: {str: float}
 
 
-@dataclass
-class TypeMatrix:  # route: /types
-    types: list[list[str|float]]
+TypeMatrix = list[list[str|float]]
 
 
 @dataclass
