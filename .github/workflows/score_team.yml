@@ -26,7 +26,7 @@ jobs:
 
     - name: Run behave tests
       run: |
-        behave -D --junit
+        behave --junit
 
     - name: Test Report
       uses: dorny/test-reporter@v1
