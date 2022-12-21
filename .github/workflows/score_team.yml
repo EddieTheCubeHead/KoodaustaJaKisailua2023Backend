@@ -1,4 +1,4 @@
-name: Test with behave
+name: Score team
 
 on:
   push:
@@ -24,20 +24,20 @@ jobs:
         pip install behave
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Run behave tests
+    - name: Run tests
       run: |
         behave --junit
 
-    - name: Test Report
+    - name: Create test report
       uses: dorny/test-reporter@v1
-      if: always()    # run this step even if previous step failed
+      if: always()
       with:
         name: Behave test results
         path: reports/*.xml
         reporter: java-junit
       id: create_report
 
-    - name: Discord Embed
+    - name: Send scores to organizers
       uses: sarisia/actions-status-discord@v1
       if: always()
       with:
