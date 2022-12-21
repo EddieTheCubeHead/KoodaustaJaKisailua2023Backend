@@ -1,6 +1,9 @@
-from src.application import app
+from src.application import application
 from src.api import get_pokemon
 from src.models import Pokemon
+
+
+app = application
 
 
 @app.get("/")
