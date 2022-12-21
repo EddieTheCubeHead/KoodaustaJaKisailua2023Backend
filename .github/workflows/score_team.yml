@@ -1,0 +1,49 @@
+name: Test with behave
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install behave
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Run behave tests
+      run: |
+        behave -D --junit
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: always()    # run this step even if previous step failed
+      with:
+        name: Behave test results
+        path: reports/*.xml
+        reporter: java-junit
+      id: create_report
+
+    - name: Discord Embed
+      uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+        webhook: ${{ secrets.WEBHOOK_URL }}
+        title: "master repository"
+        description: "✅ Passed: ${{steps.create_report.outputs.passed}}\n⛔ Failed: ${{steps.create_report.outputs.failed}}\n⌛ Skipped: ${{steps.create_report.outputs.skipped}}\n⏱ Running time: ${{steps.create_report.outputs.time}}"
+        color: ${{ (startsWith(job.status, 'success') && 0x07cf00 ) || 0xcf0000 }}
+        username: GitHub Actions
+        avatar_url: "https://cdn3.iconfinder.com/data/icons/inficons/512/github.png"
