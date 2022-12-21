@@ -37,14 +37,15 @@ Short explanations about how to set up and run the server and tests using VSCode
 
 ### Running tests
 
-- Go to configurations `Add configuration` or `Edit configurations` (top right, use dropdown if configurations exist)
+- Go to `Add configuration` or `Edit configurations` (top right, use dropdown if configurations exist)
 - From top-left in the pop-up window, choose "+" -> "behave"
 - Set `features` as the feature file folder (and add a name to the configuration if you want to)
 - Save and run the configuration
 
 ### Running the app
 
-- Go to configurations `Add configuration` or Edit configurations (top right, use dropdown if configurations exist)
+- Go to `Add configuration` or `Edit configurations` (top right, use dropdown if configurations exist)
 - From top-left in the pop-up window, choose "+" -> "FastAPI"
 - Set `src.routes` as the application file (and add a name to the configuration if you want to)
+- Set the `Uvicorn options` field as `--reload`
 - Save and run the configuration
