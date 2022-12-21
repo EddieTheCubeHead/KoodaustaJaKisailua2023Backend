@@ -22,7 +22,7 @@ class Pokemon:  # route: /pokemon/{name}
 
 
 @dataclass
-class ListPokemon:  # route: /pokemons?start=0:
+class ListPokemon:  # route: /pokemons?start=0&end=1008
     name: str
     pokedex_number: int
     sprite_link: str

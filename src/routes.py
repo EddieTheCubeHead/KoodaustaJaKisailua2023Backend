@@ -12,5 +12,5 @@ async def root() -> Pokemon:
 
 
 @app.get("/pokemon/{name}")
-async def get_pokemon(name: str):
+async def fetch_pokemon(name: str):
     return get_pokemon(name)
