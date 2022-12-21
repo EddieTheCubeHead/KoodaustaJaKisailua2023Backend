@@ -1,7 +1,7 @@
 from behave.runner import Context
 from starlette.testclient import TestClient
 
-from routes import app
+from src.routes import app
 
 
 def before_all(context: Context):
