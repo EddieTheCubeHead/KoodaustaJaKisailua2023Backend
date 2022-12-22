@@ -34,8 +34,8 @@ class ListPokemon:  # route: /pokemons?start=0&end=1008
 class Type:  # route: /type/{name}
     name: str
     id: int
-    offensive_multipliers: {str: float}
-    defensive_multipliers: {str: float}
+    offensive_multipliers: dict[str, float]
+    defensive_multipliers: dict[str, float]
 
 
 TypeMatrix = list[list[str|float]]
@@ -73,7 +73,7 @@ class GrowthRate:
 @dataclass
 class PokemonSpecies:
     growth_rate: PokemonSpeciesGrowthRate
-    
+
 
 @dataclass
 class PokemonSpeciesGrowthRate:
