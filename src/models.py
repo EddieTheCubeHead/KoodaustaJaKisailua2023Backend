@@ -19,6 +19,7 @@ class Pokemon:  # route: /pokemon/{name}
     types: list[str]
     abilities: list[str]
     evolution_chain: EvolutionChain | None
+    base_experience: int
 
 
 @dataclass
@@ -41,17 +42,40 @@ TypeMatrix = list[list[str|float]]
 
 
 @dataclass
-class ExpGainPokemonData:
+class WinBattleFaintedPokemonData:
     name: str
     level: int
 
 
 @dataclass
-class ExpGainParams:
-    attacker: ExpGainPokemonData
-    defender: ExpGainPokemonData
+class WinBattleParams:
+    winner_name: str
+    fainted: WinBattleFaintedPokemonData
 
 
 @dataclass
-class ExpGain:  # route: /exp_gain, params: ExpGainParams
-    exp_gained: int
+class WinBattle:
+    level: int
+    experience: int
+
+
+@dataclass
+class GrowthRateExperienceLevel:
+    level: int
+    experience: int
+
+
+@dataclass
+class GrowthRate:
+    levels: list[GrowthRateExperienceLevel] 
+
+
+@dataclass
+class PokemonSpecies:
+    growth_rate: PokemonSpeciesGrowthRate
+    
+
+@dataclass
+class PokemonSpeciesGrowthRate:
+    name: str
+    url: str
