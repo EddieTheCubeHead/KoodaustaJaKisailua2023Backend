@@ -12,7 +12,7 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}
       | pokedex_number | 1           |
       | artwork_link   | https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png |
 
-  Scenario: Getting ditto from root
+  Scenario: Getting ditto from /pokemon route
     When getting /pokemon/ditto
     Then the following data is received
       | data field     | field value |
