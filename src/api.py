@@ -49,12 +49,13 @@ def win_battle(params: WinBattleParams) -> WinBattle:
         cur_level = find_level_by_exp(params.winner_name, cur_exp).level
 
         # https://bulbapedia.bulbagarden.net/wiki/Experience#Experience_at_each_level:~:text=The%20scaled%20formula%20in%20Generation%20VII,.
-        exp_gain = int((fainted_pokemon.base_experience * params.fainted.level) / 5 *
-                       (((2 * params.fainted.level + 10) / (params.fainted.level + cur_level + 10)) ** 2.5 + 1))
+        # We only use b, L and L_p variables. Others can be treated as 1.
+        exp_gain = (fainted_pokemon.base_experience * params.fainted.level) / 5 * \
+                    (((2 * params.fainted.level + 10) / (params.fainted.level + cur_level + 10)) ** 2.5 + 1)
         
         add_experience(params.winner_name, exp_gain)
 
         new_experience = get_experience(params.winner_name)
         new_level = find_level_by_exp(params.winner_name, new_experience)
 
-        return WinBattle(level=new_level.level, experience=new_experience)
+        return WinBattle(level=new_level.level, experience=round(new_experience))

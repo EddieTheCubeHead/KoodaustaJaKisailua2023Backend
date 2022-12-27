@@ -1,3 +1,4 @@
+import json
 import random
 import re
 
@@ -17,10 +18,19 @@ def step_impl(context: Context):
 def step_impl(context: Context, route: str):
     get(context, route)
 
+@given("data")
+def given_data(context):
+    context.data = json.loads(context.text) 
+
+@when("posting {route}")
+def step_impl(context: Context, route: str):
+    post(context, route)
 
 def get(context: Context, route: str):
     context.response = context.client.get(route)
 
+def post(context: Context, route: str):
+    context.response = context.client.post(route, data=json.dumps(context.data))
 
 def parse_string_list(value: str):
     return [str(item) for item in value[1:-1].split(", ")] if value[1:-1] else []
