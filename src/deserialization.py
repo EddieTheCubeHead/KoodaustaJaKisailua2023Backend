@@ -10,11 +10,13 @@ def deserialize_pokemon(raw_json: dict) -> Pokemon:
                    pokedex_number=raw_json["id"], types=type_listing, evolution_chain=None, 
                    base_experience=base_experience)
 
+
 def deserialize_growth_rate(raw_json: dict) -> GrowthRate:
     levels = [GrowthRateExperienceLevel(
         level=entry["level"],
         experience=entry["experience"]) for entry in raw_json["levels"]]
     return GrowthRate(levels=levels)
+
 
 def deserialize_pokemon_species(raw_json: dict) -> PokemonSpecies:
     growth_rate = PokemonSpeciesGrowthRate(

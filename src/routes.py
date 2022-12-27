@@ -15,6 +15,7 @@ async def root() -> Pokemon:
 async def fetch_pokemon(name: str):
     return get_pokemon(name)
 
+
 @app.post("/win_battle")
 async def route_win_battle(params: WinBattleParams) -> WinBattle:
     return win_battle(params)

@@ -38,7 +38,7 @@ class Type:  # route: /type/{name}
     defensive_multipliers: dict[str, float]
 
 
-TypeMatrix = list[list[str|float]]
+TypeMatrix = list[list[str | float]]
 
 
 @dataclass
