@@ -23,11 +23,14 @@ class Pokemon:  # route: /pokemon/{name}
 
 
 @dataclass
-class ListPokemon:  # route: /pokemons?start=0&end=1008
+class ListPokemon:
     name: str
     pokedex_number: int
     sprite_link: str
     types: list[str]
+
+
+PokemonList = list[ListPokemon]  # route: /pokemons?start=0&end=1008
 
 
 @dataclass
@@ -38,7 +41,7 @@ class Type:  # route: /type/{name}
     defensive_multipliers: dict[str, float]
 
 
-TypeMatrix = list[list[str | float]]
+TypeMatrix = list[list[str | float]]  # route: /types
 
 
 @dataclass
@@ -54,7 +57,7 @@ class WinBattleParams:
 
 
 @dataclass
-class WinBattle:
+class WinBattle:  # route: /win_battle, params: WinBattleParams
     level: int
     experience: int
 

@@ -1,5 +1,5 @@
 # Created by MustacheCorp at 21/12/2022
-Feature: Fetching pokemon by name from the route "/pokemon/{name}
+Feature: Fetching pokemon by name from the route "/pokemon/{name}", basic level
   # The backend should have the route "/pokemon/{name}" that allows fetching pokemon data by nane
   # Root should return the same as calling "/pokemon/bulbasaur"
   # The minimum requirements for the route are providing the name, pokedex id and a link to the official artwork

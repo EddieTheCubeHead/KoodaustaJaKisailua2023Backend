@@ -1,5 +1,7 @@
 import random
+import re
 
+import requests
 from behave import *
 from behave.runner import Context
 
@@ -18,9 +20,15 @@ def get(context: Context, route: str):
     context.response = context.client.get(route)
 
 
+def parse_string_list(value: str):
+    return [str(item) for item in value[1:-1].split(", ")]
+
+
 def parse_value(value: str):
     if value.isnumeric():
         return int(value)
+    if re.match(r"\[(?:[\w -]+, )*([\w -]+)]", value):
+        return parse_string_list(value)
     return value
 
 
@@ -57,5 +65,14 @@ def step_impl(context: Context):
     expected_model = {"name": context.fetched_name,
                       "pokedex_number": context.fetched_number,
                       "artwork_link": artwork_link}
+    actual_model = context.response.json()
+    assert_valid_model(actual_model, expected_model)
+
+
+@then("pokemon types and abilities returned")
+def step_impl(context: Context):
+    pokemon_data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{context.fetched_name}").json()
+    expected_model = {"types": [typing["type"]["name"] for typing in pokemon_data["types"]],
+                      "abilities": [ability["ability"]["name"] for ability in pokemon_data["abilities"]]}
     actual_model = context.response.json()
     assert_valid_model(actual_model, expected_model)
