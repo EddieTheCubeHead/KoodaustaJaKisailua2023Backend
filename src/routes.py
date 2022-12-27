@@ -1,6 +1,6 @@
 from src.application import application
-from src.api import get_pokemon
-from src.models import Pokemon
+from src.api import get_pokemon, win_battle
+from src.models import Pokemon, WinBattle, WinBattleParams
 
 
 app = application
@@ -14,3 +14,7 @@ async def root() -> Pokemon:
 @app.get("/pokemon/{name}")
 async def fetch_pokemon(name: str):
     return get_pokemon(name)
+
+@app.post("/win_battle")
+async def route_win_battle(params: WinBattleParams) -> WinBattle:
+    return win_battle(params)
