@@ -1,4 +1,8 @@
-from src.models import GrowthRate, GrowthRateExperienceLevel, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate
+import requests
+
+from src.evolution_parsing import deserialize_chain_member
+from src.models import GrowthRate, GrowthRateExperienceLevel, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate, \
+    EvolutionChain
 
 
 def deserialize_pokemon(raw_json: dict) -> Pokemon:
@@ -24,3 +28,7 @@ def deserialize_pokemon_species(raw_json: dict) -> PokemonSpecies:
         url=raw_json["growth_rate"]["url"]
     )
     return PokemonSpecies(growth_rate=growth_rate)
+
+
+def deserialize_evolution_chain(raw_json: dict) -> EvolutionChain:
+    return deserialize_chain_member(raw_json["chain"])

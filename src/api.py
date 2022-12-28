@@ -1,17 +1,31 @@
 import requests
 from src.experiences import add_experience, get_experience
 
-from src.deserialization import deserialize_growth_rate, deserialize_pokemon, deserialize_pokemon_species
-from src.models import GrowthRate, Pokemon, PokemonSpecies, WinBattle, WinBattleParams, GrowthRateExperienceLevel
+from src.deserialization import deserialize_growth_rate, deserialize_pokemon, deserialize_pokemon_species, \
+    deserialize_evolution_chain
+from src.models import GrowthRate, Pokemon, PokemonSpecies, WinBattle, WinBattleParams, GrowthRateExperienceLevel, \
+    EvolutionChain
+
+API_URL = "https://pokeapi.co/api/v2"
+
+
+def get_evolution_chain(name: str) -> EvolutionChain | None:
+    family_request = requests.get(f"{API_URL}/pokemon-species/{name}")
+    if family_request.status_code != 200:
+        return None
+    species_request = requests.get(family_request.json()["evolution_chain"]["url"])
+    return deserialize_evolution_chain(species_request.json())
 
 
 def get_pokemon(name: str) -> Pokemon:
-    request = requests.get(f"https://pokeapi.co/api/v2/pokemon/{name}")
-    return deserialize_pokemon(request.json())
+    request = requests.get(f"{API_URL}/pokemon/{name}")
+    pokemon = deserialize_pokemon(request.json())
+    pokemon.evolution_chain = get_evolution_chain(name)
+    return pokemon
 
 
 def get_pokemon_species(name: str) -> PokemonSpecies:
-    request = requests.get(f"https://pokeapi.co/api/v2/pokemon-species/{name}")
+    request = requests.get(f"{API_URL}/pokemon-species/{name}")
     return deserialize_pokemon_species(request.json())
 
 
