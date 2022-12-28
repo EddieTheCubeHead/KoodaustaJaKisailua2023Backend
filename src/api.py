@@ -9,8 +9,10 @@ from src.models import GrowthRate, Pokemon, PokemonSpecies, WinBattle, WinBattle
 API_URL = "https://pokeapi.co/api/v2"
 
 
-def get_evolution_chain(name: str) -> EvolutionChain:
+def get_evolution_chain(name: str) -> EvolutionChain | None:
     family_request = requests.get(f"{API_URL}/pokemon-species/{name}")
+    if family_request.status_code != 200:
+        return None
     species_request = requests.get(family_request.json()["evolution_chain"]["url"])
     return deserialize_evolution_chain(species_request.json())
 

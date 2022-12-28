@@ -53,7 +53,9 @@ def _parse_evolution_details(json: dict):
         "trade_species": _parse_trade_species,
     }
     detail_strings = [details[detail](json[detail]) for detail in details if json[detail]]
-    return f" while {_create_plural(*detail_strings)}"
+    if detail_strings:
+        return f" while {_create_plural(*detail_strings)}"
+    return ""
 
 
 def _create_plural(*singulars: str):
