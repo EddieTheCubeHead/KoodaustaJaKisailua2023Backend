@@ -57,7 +57,7 @@ class WinBattleParams:
 
 
 @dataclass
-class WinBattle:  # route: /win_battle, params: WinBattleParams
+class WinBattle:  # route: /win-battle, params: WinBattleParams
     level: int
     experience: int
 
