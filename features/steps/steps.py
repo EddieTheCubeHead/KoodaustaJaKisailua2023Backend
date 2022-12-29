@@ -165,5 +165,3 @@ def step_impl(context: Context):
     expected_evolution_model = parse_evolution_from_text(sanitize(context.text))
     actual_evolution_model = parse_evolution_from_dict(context.response.json()["evolution_chain"])
     assert_valid_evolution(expected_evolution_model, actual_evolution_model)
-    assert expected_evolution_model == actual_evolution_model,\
-        f"expected {expected_evolution_model} to equal {actual_evolution_model}"
