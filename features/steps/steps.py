@@ -18,19 +18,24 @@ def step_impl(context: Context):
 def step_impl(context: Context, route: str):
     get(context, route)
 
+
 @given("data")
 def given_data(context):
     context.data = json.loads(context.text) 
+
 
 @when("posting {route}")
 def step_impl(context: Context, route: str):
     post(context, route)
 
+
 def get(context: Context, route: str):
     context.response = context.client.get(route)
 
+
 def post(context: Context, route: str):
     context.response = context.client.post(route, data=json.dumps(context.data))
+
 
 def parse_string_list(value: str):
     return [str(item) for item in value[1:-1].split(", ")] if value[1:-1] else []
@@ -94,7 +99,7 @@ def parse_evolution_from_text(text: str):
     models: dict[str, EvolutionChain] = {}
     rows = text.split("\n")[::-1]
     last_parsed = ""
-    for name, pokedex_number, evolution_condition, evolves_to_raw in [row.split(", ") for row in rows]:
+    for name, pokedex_number, evolution_condition, evolves_to_raw in [row.split(", ", 3) for row in rows]:
         last_parsed = name
         evolves_to = [models[evolution] for evolution in parse_string_list(evolves_to_raw)]
         sprite_link = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokedex_number}.png"
@@ -129,9 +134,36 @@ def sanitize(text):
     return text.replace("\r", "")
 
 
+def assert_valid_evolution(expected_evolution: EvolutionChain, actual_evolution: EvolutionChain):
+
+    assert expected_evolution.name == actual_evolution.name, \
+        f"Expected evolution model name to be {expected_evolution.name}, but was {actual_evolution.name}"
+
+    assert expected_evolution.pokedex_number == actual_evolution.pokedex_number, \
+        f"Expected {actual_evolution.name} evolution model pokedex number to be " \
+        f"{expected_evolution.pokedex_number}, but was {actual_evolution.pokedex_number}"
+
+    assert expected_evolution.sprite_link == actual_evolution.sprite_link, \
+        f"Expected {actual_evolution.name} evolution model sprite link to be " \
+        f"{expected_evolution.sprite_link}, but was {actual_evolution.sprite_link}"
+
+    assert expected_evolution.evolution_condition == actual_evolution.evolution_condition, \
+        f"Expected {actual_evolution.name} evolution model evolution condition to be " \
+        f"{expected_evolution.evolution_condition}, but was {actual_evolution.evolution_condition}"
+
+    for expected_evolves_to in expected_evolution.evolves_to:
+        actual_evolves_to \
+            = next((model for model in actual_evolution.evolves_to if model.name == expected_evolves_to.name), None)
+        assert actual_evolves_to is not None, \
+            f"Expected to find evolution named {expected_evolves_to.name} in evolutions for evolution model named" \
+            f"{actual_evolution.name}, but only found {[model.name for model in actual_evolution.evolves_to]}"
+        assert_valid_evolution(expected_evolves_to, actual_evolves_to)
+
+
 @then("the following evolution chain is received")
 def step_impl(context: Context):
     expected_evolution_model = parse_evolution_from_text(sanitize(context.text))
     actual_evolution_model = parse_evolution_from_dict(context.response.json()["evolution_chain"])
+    assert_valid_evolution(expected_evolution_model, actual_evolution_model)
     assert expected_evolution_model == actual_evolution_model,\
         f"expected {expected_evolution_model} to equal {actual_evolution_model}"

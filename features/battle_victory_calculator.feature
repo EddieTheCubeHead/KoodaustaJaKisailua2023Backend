@@ -36,7 +36,6 @@ Feature: Calculating exp and level changes after winning a battle
       | level          | 10          |
       | experience     | 524         |
 
-  @wip
   Scenario: Calculating battle win for another pokemon
     Given data
     """

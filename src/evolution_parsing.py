@@ -31,11 +31,11 @@ def _parse_evolution_condition(json: dict) -> str:
 
 
 def _parse_evolution_details(json: dict):
+    base_condition = ""
     if "item" in json and json["item"]:
-        names = requests.get(json["item"]["url"]).json()["names"]
-        name = next(name["name"] for name in names if name["language"]["name"] == "en")
-        return f" {name}"
-    details = {
+        name = get_item_name(json["item"]["url"])
+        base_condition = f" {name}"
+    detail_parsers = {
         "gender": _parse_gender_details,
         "held_item": _parse_held_item,
         "known_move": _parse_known_move,
@@ -52,10 +52,16 @@ def _parse_evolution_details(json: dict):
         "time_of_day": _parse_time_of_day,
         "trade_species": _parse_trade_species,
     }
-    detail_strings = [details[detail](json[detail]) for detail in details if json[detail]]
+    detail_strings = [detail_parsers[detail](json[detail]) for detail in detail_parsers if json[detail]]
     if detail_strings:
-        return f" while {_create_plural(*detail_strings)}"
-    return ""
+        return f"{base_condition} while {_create_plural(*detail_strings)}"
+    return f"{base_condition}"
+
+
+def get_item_name(url: str):
+    names = requests.get(url).json()["names"]
+    name = next(name["name"] for name in names if name["language"]["name"] == "en")
+    return name
 
 
 def _create_plural(*singulars: str):
@@ -64,40 +70,43 @@ def _create_plural(*singulars: str):
     return f"{', '.join(singulars[:-1])} and {singulars[-1]}"
 
 
-def _parse_gender_details(details: str) -> str:
-    return f"is {details}"
+def _parse_gender_details(details: int) -> str:
+    gender_mapping = {1: "female", 2: "male"}
+    return f"being {gender_mapping[details]}"
 
 
-def _parse_held_item(details: str) -> str:
-    return f"is holding {details}"
+def _parse_held_item(details: dict) -> str:
+    return f"is holding the item {get_item_name(details['url'])}"
 
 
 def _parse_known_move(details: str) -> str:
-    return f"knows the move {details}"
+    return f"knowing the move {details}"
 
 
-def _parse_known_move_type(details: str) -> str:
-    return f"knows a move of type {details}"  # TODO double check
+def _parse_known_move_type(details: dict) -> str:
+    return f"knowing a {details['name']}-type move"
 
 
-def _parse_location(details: str) -> str:
-    return f"in location {details}"
+def _parse_location(details: dict) -> str:
+    names = requests.get(details["url"]).json()["names"]
+    name = next(name["name"] for name in names if name["language"]["name"] == "en")
+    return f"in {name}"
 
 
 def _parse_affection(details: str) -> str:
-    return f"affection is over {details}"
+    return f"affection is at least {details}"
 
 
 def _parse_beauty(details: str) -> str:
-    return f"beauty is over {details}"
+    return f"beauty is at least {details}"
 
 
 def _parse_happiness(details: str) -> str:
-    return f"happiness is over {details}"
+    return f"happiness is at least {details}"
 
 
 def _parse_level(details: str) -> str:
-    return f"level is over {details}"
+    return f"level is at least {details}"
 
 
 def _parse_rain(condition: bool) -> str:
