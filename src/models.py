@@ -30,7 +30,7 @@ class ListPokemon:
     types: list[str]
 
 
-PokemonList = list[ListPokemon]  # route: /pokemons?start=0&end=1008
+PokemonList = list[ListPokemon]  # route: /pokemon?start=0&end=1008
 
 
 @dataclass
