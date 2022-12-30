@@ -155,7 +155,7 @@ def assert_valid_evolution(expected_evolution: EvolutionChain, actual_evolution:
         actual_evolves_to \
             = next((model for model in actual_evolution.evolves_to if model.name == expected_evolves_to.name), None)
         assert actual_evolves_to is not None, \
-            f"Expected to find evolution named {expected_evolves_to.name} in evolutions for evolution model named" \
+            f"Expected to find evolution named {expected_evolves_to.name} in evolutions for evolution model named " \
             f"{actual_evolution.name}, but only found {[model.name for model in actual_evolution.evolves_to]}"
         assert_valid_evolution(expected_evolves_to, actual_evolves_to)
 
