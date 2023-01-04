@@ -1,0 +1,36 @@
+name: Developer tests
+
+on:
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install behave
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Run tests
+      run: |
+        behave --junit
+
+    - name: Create test report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Behave test results
+        path: reports/*.xml
+        reporter: java-junit
+      id: create_report
