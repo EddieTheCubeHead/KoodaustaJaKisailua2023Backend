@@ -1,5 +1,3 @@
-import requests
-
 from src.evolution_parsing import deserialize_chain_member
 from src.models import GrowthRate, GrowthRateExperienceLevel, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate, \
     EvolutionChain, Stats, Type
