@@ -3,8 +3,6 @@ name: Score team
 on:
   push:
     branches: [ master, main ]
-  pull_request:
-    branches: [ master, main ]
 
 jobs:
   build:
@@ -24,7 +22,7 @@ jobs:
         pip install behave
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Run tests
+    - name: Test and score solution
       run: |
         behave --junit
 
