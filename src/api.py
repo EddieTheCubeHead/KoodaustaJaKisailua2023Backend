@@ -2,8 +2,8 @@ import requests
 from src.experiences import add_experience, get_experience
 
 from src.deserialization import deserialize_growth_rate, deserialize_pokemon, deserialize_pokemon_species, \
-    deserialize_evolution_chain
-from src.models import GrowthRate, Pokemon, PokemonSpecies, WinBattle, WinBattleParams, GrowthRateExperienceLevel, \
+    deserialize_evolution_chain, deserialize_type
+from src.models import GrowthRate, Pokemon, PokemonSpecies, Type, WinBattle, WinBattleParams, GrowthRateExperienceLevel, \
     EvolutionChain
 
 API_URL = "https://pokeapi.co/api/v2"
@@ -60,3 +60,8 @@ def win_battle(params: WinBattleParams) -> WinBattle:
         new_level = find_level_by_exp(params.winner_name, new_experience)
 
         return WinBattle(level=new_level.level, experience=round(new_experience))
+
+
+def get_type(name: str) -> Type:
+    request = requests.get(f"{API_URL}/type/{name}")
+    return deserialize_type(request.json())
