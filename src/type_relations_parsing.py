@@ -17,7 +17,7 @@ class RelationMultipliers:
     "double_damage_from": 2
   }
 
-def parse_multipliers(relations_json, type: RelationType) -> dict[str, float]:
+def parse_multipliers(relations_json: dict, type: RelationType) -> dict[str, float]:
   relations = {}
   relation_multipliers = {}
 
