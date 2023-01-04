@@ -1,3 +1,5 @@
+from typing import Any
+
 import requests
 
 from src.models import EvolutionChain
@@ -19,21 +21,19 @@ def _parse_evolution_condition(json: dict) -> str:
         "level-up": "Level up",
         "trade": "Trade",
         "use-item": "Use the item",
-        "shed": "Have a free slot in your party while evolving Nincada",
-        "spin": "Spin your trainer",
-        "tower-of-darkness": "Train in the tower of darkness",
-        "tower-of-waters": "Train in the tower of waters",
-        "three-critical-hits": "Land three critical hits in one battle",
-        "take-damage": "Go to a specified location after taking damage",
-        "other": "Unavailable"
+        "shed": "Have a free slot in your party and at least one poke ball while evolving Nincada into Ninjask",
     }
-    return f"{triggers[json['trigger']['name']]}{_parse_evolution_details(json)}"
+    if json['trigger']['name'] in triggers:
+        trigger_string = triggers[json['trigger']['name']]
+    else:
+        trigger_string = _get_english_translation_for_entry(json['trigger']['url'])
+    return f"{trigger_string}{_parse_evolution_details(json)}"
 
 
 def _parse_evolution_details(json: dict):
     base_condition = ""
     if "item" in json and json["item"]:
-        name = get_item_name(json["item"]["url"])
+        name = _get_english_translation_for_entry(json["item"]["url"])
         base_condition = f" {name}"
     detail_parsers = {
         "gender": _parse_gender_details,
@@ -51,17 +51,17 @@ def _parse_evolution_details(json: dict):
         "relative_physical_stats": _parse_relative_physical_stats,
         "time_of_day": _parse_time_of_day,
         "trade_species": _parse_trade_species,
+        "turn_upside_down": _parse_upside_down
     }
-    detail_strings = [detail_parsers[detail](json[detail]) for detail in detail_parsers if json[detail]]
+    detail_strings = [detail_parsers[detail](json[detail]) for detail in detail_parsers if json[detail] is not None]
+    detail_strings = _prune_list(detail_strings)
     if detail_strings:
         return f"{base_condition} while {_create_plural(*detail_strings)}"
     return f"{base_condition}"
 
 
-def get_item_name(url: str):
-    names = requests.get(url).json()["names"]
-    name = next(name["name"] for name in names if name["language"]["name"] == "en")
-    return name
+def _prune_list(to_prune: list[Any]) -> list[str]:
+    return [item for item in to_prune if type(item) is str]
 
 
 def _create_plural(*singulars: str):
@@ -76,21 +76,19 @@ def _parse_gender_details(details: int) -> str:
 
 
 def _parse_held_item(details: dict) -> str:
-    return f"is holding the item {get_item_name(details['url'])}"
+    return f"is holding the item {_get_english_translation_for_entry(details['url'])}"
 
 
-def _parse_known_move(details: str) -> str:
-    return f"knowing the move {details}"
+def _parse_known_move(details: dict) -> str:
+    return f"knowing the move {_get_english_translation_for_entry(details['url'])}"
 
 
 def _parse_known_move_type(details: dict) -> str:
-    return f"knowing a {details['name']}-type move"
+    return f"knowing a {_get_english_translation_for_entry(details['url'])} type move"
 
 
 def _parse_location(details: dict) -> str:
-    names = requests.get(details["url"]).json()["names"]
-    name = next(name["name"] for name in names if name["language"]["name"] == "en")
-    return f"in {name}"
+    return f"in {_get_english_translation_for_entry(details['url'])}"
 
 
 def _parse_affection(details: str) -> str:
@@ -113,25 +111,35 @@ def _parse_rain(condition: bool) -> str:
     return "it is raining" if condition else None
 
 
-def _parse_party_species(details: str) -> str:
-    return f"party has pokemon of the {details} species"  # TODO double check
+def _parse_party_species(details: dict) -> str:
+    return f"having {_get_english_translation_for_entry(details['url'])} in the party"
 
 
-def _parse_party_type(details: str) -> str:
-    return f"party has pokemon of the {details} type"  # TODO double check
+def _parse_party_type(details: dict) -> str:
+    return f"having a {_get_english_translation_for_entry(details['url'])} type pokemon in the party"
 
 
-def _parse_relative_physical_stats(details: str) -> str:
-    return f"has physical stats of {details}"  # TODO fix
+def _parse_relative_physical_stats(details: int) -> str:
+    relations = {
+        -1: "smaller than",
+        0: "equal to",
+        1: "greater than"
+    }
+    return f"attack is {relations[details]} defence"
 
 
-def _parse_time_of_day(details: str) -> str:
-    return f"it is {details}"
+def _parse_time_of_day(details: str | None) -> str:
+    return f"it is {details}" if details else None
 
 
-def _parse_trade_species(details: str) -> str:
-    return f"traded with {details}"
+def _parse_trade_species(details: dict) -> str:
+    return f"the other traded pokemon is {_get_english_translation_for_entry(details['url'])}"
 
 
-def _parse_upside_down(details: str) -> str:
-    return "game held upside down"
+def _parse_upside_down(condition: bool) -> str:
+    return "the console is held upside down" if condition else None
+
+
+def _get_english_translation_for_entry(url: str) -> str:
+    names = requests.get(url).json()["names"]
+    return next(name["name"] for name in names if name["language"]["name"] == "en")
