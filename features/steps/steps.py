@@ -4,6 +4,7 @@ import re
 
 import requests
 from behave import *
+from behave.model import Table
 from behave.runner import Context
 
 from src.models import EvolutionChain
@@ -165,3 +166,20 @@ def step_impl(context: Context):
     expected_evolution_model = parse_evolution_from_text(sanitize(context.text))
     actual_evolution_model = parse_evolution_from_dict(context.response.json()["evolution_chain"])
     assert_valid_evolution(expected_evolution_model, actual_evolution_model)
+
+
+def parse_stats(table: Table):
+    return {
+        "hp": int(table[0][1]),
+        "attack": int(table[1][1]),
+        "defense": int(table[2][1]),
+        "special_attack": int(table[3][1]),
+        "special_defense": int(table[4][1]),
+        "speed": int(table[5][1])
+    }
+
+
+@then("the following stats are received")
+def step_impl(context: Context):
+    expected_stats = parse_stats(context.table)
+    assert_valid_model(expected_stats, context.response.json()["stats"])

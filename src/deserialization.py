@@ -2,7 +2,11 @@ import requests
 
 from src.evolution_parsing import deserialize_chain_member
 from src.models import GrowthRate, GrowthRateExperienceLevel, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate, \
-    EvolutionChain
+    EvolutionChain, Stats
+
+
+def _parse_stats(stat_list: list[dict]) -> Stats:
+    return Stats(*[stat_json["base_stat"] for stat_json in stat_list])
 
 
 def deserialize_pokemon(raw_json: dict) -> Pokemon:
@@ -10,8 +14,9 @@ def deserialize_pokemon(raw_json: dict) -> Pokemon:
     type_listing = [typing["type"]["name"] for typing in raw_json["types"]]
     artwork_link = raw_json["sprites"]["other"]["official-artwork"]["front_default"]
     base_experience = raw_json["base_experience"]
+    stats = _parse_stats(raw_json["stats"])
     return Pokemon(name=raw_json["name"], abilities=ability_listing, artwork_link=artwork_link,
-                   pokedex_number=raw_json["id"], types=type_listing, evolution_chain=None, 
+                   pokedex_number=raw_json["id"], types=type_listing, stats=stats, evolution_chain=None,
                    base_experience=base_experience)
 
 

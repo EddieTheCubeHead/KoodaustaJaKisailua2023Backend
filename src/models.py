@@ -3,6 +3,16 @@ from dataclasses import dataclass
 
 
 @dataclass
+class Stats:
+    hp: int
+    attack: int
+    defense: int
+    special_attack: int
+    special_defense: int
+    speed: int
+
+
+@dataclass
 class EvolutionChain:
     name: str
     pokedex_number: int
@@ -18,6 +28,7 @@ class Pokemon:  # route: /pokemon/{name}
     artwork_link: str
     types: list[str]
     abilities: list[str]
+    stats: Stats
     evolution_chain: EvolutionChain | None
     base_experience: int
 
