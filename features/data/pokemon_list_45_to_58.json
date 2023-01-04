@@ -1,0 +1,119 @@
+[
+    {
+        "name": "vileplume",
+        "pokedex_number": 45,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/45.png",
+        "types": [
+            "grass",
+            "poison"
+        ]
+    },
+    {
+        "name": "paras",
+        "pokedex_number": 46,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/46.png",
+        "types": [
+            "bug",
+            "grass"
+        ]
+    },
+    {
+        "name": "parasect",
+        "pokedex_number": 47,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/47.png",
+        "types": [
+            "bug",
+            "grass"
+        ]
+    },
+    {
+        "name": "venonat",
+        "pokedex_number": 48,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/48.png",
+        "types": [
+            "bug",
+            "poison"
+        ]
+    },
+    {
+        "name": "venomoth",
+        "pokedex_number": 49,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/49.png",
+        "types": [
+            "bug",
+            "poison"
+        ]
+    },
+    {
+        "name": "diglett",
+        "pokedex_number": 50,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/50.png",
+        "types": [
+            "ground"
+        ]
+    },
+    {
+        "name": "dugtrio",
+        "pokedex_number": 51,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/51.png",
+        "types": [
+            "ground"
+        ]
+    },
+    {
+        "name": "meowth",
+        "pokedex_number": 52,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/52.png",
+        "types": [
+            "normal"
+        ]
+    },
+    {
+        "name": "persian",
+        "pokedex_number": 53,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/53.png",
+        "types": [
+            "normal"
+        ]
+    },
+    {
+        "name": "psyduck",
+        "pokedex_number": 54,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png",
+        "types": [
+            "water"
+        ]
+    },
+    {
+        "name": "golduck",
+        "pokedex_number": 55,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png",
+        "types": [
+            "water"
+        ]
+    },
+    {
+        "name": "mankey",
+        "pokedex_number": 56,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/56.png",
+        "types": [
+            "fighting"
+        ]
+    },
+    {
+        "name": "primeape",
+        "pokedex_number": 57,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/57.png",
+        "types": [
+            "fighting"
+        ]
+    },
+    {
+        "name": "growlithe",
+        "pokedex_number": 58,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/58.png",
+        "types": [
+            "fire"
+        ]
+    }
+]

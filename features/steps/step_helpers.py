@@ -38,3 +38,8 @@ def assert_valid_model(expected_model, actual_model):
         assert actual_model[expected_key] == expected_value, \
             f"Expected the field '{expected_key}' to equal '{expected_value}' in the model {actual_model}, but was " \
             f"'{actual_model[expected_key]}'"
+
+
+def assert_valid_model_list(expected_list, actual_list):
+    for index, model in enumerate(expected_list):
+        assert_valid_model(model, actual_list[index])
