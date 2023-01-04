@@ -20,6 +20,7 @@ async def fetch_pokemon(name: str):
 async def route_win_battle(params: WinBattleParams) -> WinBattle:
     return win_battle(params)
 
+
 @app.get("/type/{name}")
 async def fetch_type(name: str):
     return get_type(name)
