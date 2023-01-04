@@ -1,6 +1,6 @@
 # Created by MustacheCorp at 03/01/2023
 Feature: Fetching pokemon types by name from the route "/type/{name}", basic level
-  # TODO explain feature here
+  # The basic type fetching feature fetches only the id and name of types.  
 
   Scenario Outline: Getting a type from the /type route
     When getting /type/<name>

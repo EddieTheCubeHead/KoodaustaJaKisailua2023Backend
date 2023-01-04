@@ -1,6 +1,7 @@
 # Created by MustacheCorp at 03/01/2023
 Feature: Fetching pokemon types by name from the route "/type/{name}", hard level
-  # TODO explain feature here
+  # The hard type fetching feature fetches also the offensive and defensive multipliers
+  # of types in addition to their name and id.
 
   Scenario Outline: Getting a type from the /type route
     When getting /type/<name>
