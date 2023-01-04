@@ -1,5 +1,5 @@
 from src.evolution_parsing import deserialize_chain_member
-from src.models import GrowthRate, GrowthRateExperienceLevel, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate, \
+from src.models import GrowthRate, GrowthRateExperienceLevel, ListPokemon, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate, \
     EvolutionChain, Stats, Type
 from src.type_relations_parsing import RelationType, parse_multipliers
 
@@ -44,4 +44,13 @@ def deserialize_type(raw_json: dict) -> Type:
         id=raw_json["id"],
         offensive_multipliers=parse_multipliers(raw_json["damage_relations"], RelationType.OFFENSIVE),
         defensive_multipliers=parse_multipliers(raw_json["damage_relations"], RelationType.DEFENSIVE),
+    )
+
+
+def deserialize_list_pokemon(raw_json: dict) -> ListPokemon:
+    return ListPokemon(
+        name = raw_json["name"],
+        pokedex_number = raw_json["id"],
+        sprite_link = raw_json["sprites"]["front_default"],
+        types = [typing["type"]["name"] for typing in raw_json["types"]]
     )
