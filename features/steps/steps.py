@@ -183,3 +183,12 @@ def parse_stats(table: Table):
 def step_impl(context: Context):
     expected_stats = parse_stats(context.table)
     assert_valid_model(expected_stats, context.response.json()["stats"])
+
+
+@then("pokemon stats returned")
+def step_impl(context):
+    pokemon_data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{context.fetched_name}").json()
+    stats = ["hp", "attack", "defense", "special_attack", "special_defense", "speed"]
+    expected_model = {name: value["base_stat"] for name, value in zip(stats, pokemon_data["stats"])}
+    actual_model = context.response.json()["stats"]
+    assert_valid_model(expected_model, actual_model)
