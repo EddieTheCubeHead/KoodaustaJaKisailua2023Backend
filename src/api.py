@@ -1,12 +1,12 @@
 import requests
+
+from src.application import API_URL
 from src.experiences import add_experience, get_experience
 
 from src.deserialization import deserialize_growth_rate, deserialize_pokemon, deserialize_pokemon_species, \
     deserialize_evolution_chain, deserialize_type
 from src.models import GrowthRate, Pokemon, PokemonSpecies, Type, WinBattle, WinBattleParams, GrowthRateExperienceLevel, \
     EvolutionChain
-
-API_URL = "https://pokeapi.co/api/v2"
 
 
 def get_evolution_chain(name: str) -> EvolutionChain | None:
@@ -52,8 +52,8 @@ def win_battle(params: WinBattleParams) -> WinBattle:
         # https://bulbapedia.bulbagarden.net/wiki/Experience#Experience_at_each_level:~:text=The%20scaled%20formula%20in%20Generation%20VII,.
         # We only use b, L and L_p variables. Others can be treated as 1.
         exp_gain = (fainted_pokemon.base_experience * params.fainted.level) / 5 * \
-                    (((2 * params.fainted.level + 10) / (params.fainted.level + cur_level + 10)) ** 2.5 + 1)
-        
+                   (((2 * params.fainted.level + 10) / (params.fainted.level + cur_level + 10)) ** 2.5 + 1)
+
         add_experience(params.winner_name, exp_gain)
 
         new_experience = get_experience(params.winner_name)
