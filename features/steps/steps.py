@@ -21,7 +21,7 @@ def step_impl(context: Context, route: str):
 
 
 @given("data")
-def given_data(context):
+def given_data(context: Context):
     context.data = json.loads(context.text) 
 
 
@@ -41,12 +41,14 @@ def post(context: Context, route: str):
 def parse_string_list(value: str):
     return [str(item) for item in value[1:-1].split(", ")] if value[1:-1] else []
 
-
 def parse_value(value: str):
     if value.isnumeric():
         return int(value)
     if re.match(r"\[(?:[\w -]+, )*([\w -]+)]", value):  # list of words: [word, word] or [word]
         return parse_string_list(value)
+    json_matches = re.findall(r'(?<=json\().*(?=\))', value)
+    if json_matches and len(json_matches) == 1:
+        return json.loads(json_matches[0])
     return value
 
 
