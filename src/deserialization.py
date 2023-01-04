@@ -2,9 +2,8 @@ import requests
 
 from src.evolution_parsing import deserialize_chain_member
 from src.models import GrowthRate, GrowthRateExperienceLevel, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate, \
-    EvolutionChain, Stats
+    EvolutionChain, Stats, Type
 from src.type_relations_parsing import RelationType, parse_multipliers
-
 
 
 def _parse_stats(stat_list: list[dict]) -> Stats:
