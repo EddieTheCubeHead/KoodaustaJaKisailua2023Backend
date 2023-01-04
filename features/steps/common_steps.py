@@ -3,7 +3,7 @@ import json
 from behave import *
 from behave.runner import Context
 
-from steps.step_helpers import get, post, parse_to_dict, assert_valid_model
+from features.steps.step_helpers import get, post, parse_to_dict, assert_valid_model
 
 
 @when("getting root")

@@ -1,8 +1,8 @@
 from behave import *
 from behave.runner import Context
 
-from models import EvolutionChain
-from steps.step_helpers import parse_string_list
+from src.models import EvolutionChain
+from features.steps.step_helpers import parse_string_list
 
 
 def parse_evolution_from_text(text: str):

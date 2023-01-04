@@ -5,7 +5,7 @@ from behave import *
 from behave.model import Table
 from behave.runner import Context
 
-from steps.step_helpers import get, assert_valid_model
+from features.steps.step_helpers import get, assert_valid_model
 
 
 @when("fetching a random pokemon from /pokemon/name")
