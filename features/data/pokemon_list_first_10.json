@@ -1,0 +1,86 @@
+[
+    {
+        "name": "bulbasaur",
+        "pokedex_number": 1,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+        "types": [
+            "grass",
+            "poison"
+        ]
+    },
+    {
+        "name": "ivysaur",
+        "pokedex_number": 2,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
+        "types": [
+            "grass",
+            "poison"
+        ]
+    },
+    {
+        "name": "venusaur",
+        "pokedex_number": 3,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
+        "types": [
+            "grass",
+            "poison"
+        ]
+    },
+    {
+        "name": "charmander",
+        "pokedex_number": 4,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+        "types": [
+            "fire"
+        ]
+    },
+    {
+        "name": "charmeleon",
+        "pokedex_number": 5,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
+        "types": [
+            "fire"
+        ]
+    },
+    {
+        "name": "charizard",
+        "pokedex_number": 6,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+        "types": [
+            "fire",
+            "flying"
+        ]
+    },
+    {
+        "name": "squirtle",
+        "pokedex_number": 7,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
+        "types": [
+            "water"
+        ]
+    },
+    {
+        "name": "wartortle",
+        "pokedex_number": 8,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png",
+        "types": [
+            "water"
+        ]
+    },
+    {
+        "name": "blastoise",
+        "pokedex_number": 9,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png",
+        "types": [
+            "water"
+        ]
+    },
+    {
+        "name": "caterpie",
+        "pokedex_number": 10,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",
+        "types": [
+            "bug"
+        ]
+    }
+]

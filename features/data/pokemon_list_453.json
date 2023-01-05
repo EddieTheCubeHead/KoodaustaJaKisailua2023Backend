@@ -1,0 +1,11 @@
+[
+    {
+        "name": "croagunk",
+        "pokedex_number": 453,
+        "sprite_link": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/453.png",
+        "types": [
+            "poison",
+            "fighting"
+        ]
+    }
+]

@@ -3,9 +3,9 @@ import requests
 from src.application import API_URL
 from src.experiences import add_experience, get_experience
 
-from src.deserialization import deserialize_growth_rate, deserialize_pokemon, deserialize_pokemon_species, \
+from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon, deserialize_pokemon_species, \
     deserialize_evolution_chain, deserialize_type
-from src.models import GrowthRate, Pokemon, PokemonSpecies, Type, WinBattle, WinBattleParams, GrowthRateExperienceLevel, \
+from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, WinBattleParams, GrowthRateExperienceLevel, \
     EvolutionChain
 
 
@@ -21,6 +21,23 @@ def get_pokemon(name: str) -> Pokemon:
     pokemon = deserialize_pokemon(request.json())
     pokemon.evolution_chain = get_evolution_chain(name)
     return pokemon
+
+
+def get_list_pokemon(name: str) -> ListPokemon:
+    request = requests.get(f"{API_URL}/pokemon/{name}")
+    pokemon = deserialize_list_pokemon(request.json())
+    return pokemon
+    
+
+def get_pokemon_list(start: int, end: int) -> PokemonList:
+    request = requests.get(f"{API_URL}/pokemon?limit={end - start}&offset={start}")
+    results = request.json()["results"]
+    pokemon_list = []
+
+    for raw_pokemon in results:
+        pokemon_list.append(get_list_pokemon(raw_pokemon["name"]))    
+
+    return pokemon_list
 
 
 def get_pokemon_species(name: str) -> PokemonSpecies:
