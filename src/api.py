@@ -43,11 +43,11 @@ def get_pokemon_list(start: int, end: int) -> PokemonList:
 
 def get_type_matrix() -> TypeMatrix:
     all_types = requests.get(f"{API_URL}/type?limit=99").json()["results"]
-    type_names = [type_data["name"] for type_data in all_types]
+    type_names = [type_data["name"] for type_data in all_types if type_data["name"] not in ("unknown", "shadow")]
     type_matchups = [[type_name] for type_name in type_names]
     for type_matchup in type_matchups:
         matchup_data = deserialize_type(requests.get(f"{API_URL}/type/{type_matchup[0]}").json()).offensive_multipliers
-        type_matchup += [matchup_data[type_name] if type_name in matchup_data else None for type_name in type_names]
+        type_matchup += [matchup_data[type_name] if type_name in matchup_data else 1 for type_name in type_names]
     return [type_names] + type_matchups
 
 
