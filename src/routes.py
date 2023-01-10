@@ -1,7 +1,6 @@
 from src.application import application
-from src.api import get_pokemon, get_pokemon_list, get_type, win_battle
-from src.models import Pokemon, WinBattle, WinBattleParams
-
+from src.api import get_pokemon, get_pokemon_list, get_type, win_battle, get_type_matrix
+from src.models import Pokemon, WinBattle, WinBattleParams, TypeMatrix, Type, PokemonList
 
 app = application
 
@@ -12,12 +11,12 @@ async def root() -> Pokemon:
 
 
 @app.get("/pokemon/{name}")
-async def fetch_pokemon(name: str):
+async def fetch_pokemon(name: str) -> Pokemon:
     return get_pokemon(name)
 
 
 @app.get("/pokemon")
-async def fetch_pokemon_list(start: int = 0, end: int = 10):
+async def fetch_pokemon_list(start: int = 0, end: int = 10) -> PokemonList:
     return get_pokemon_list(start, end)
 
 
@@ -27,5 +26,10 @@ async def route_win_battle(params: WinBattleParams) -> WinBattle:
 
 
 @app.get("/type/{name}")
-async def fetch_type(name: str):
+async def fetch_type(name: str) -> Type:
     return get_type(name)
+
+
+@app.get("/types")
+async def fetch_type_matrix() -> TypeMatrix:
+    return get_type_matrix()

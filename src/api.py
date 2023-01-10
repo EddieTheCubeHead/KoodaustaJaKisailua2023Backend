@@ -5,8 +5,9 @@ from src.experiences import add_experience, get_experience
 
 from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon, deserialize_pokemon_species, \
     deserialize_evolution_chain, deserialize_type
-from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, WinBattleParams, GrowthRateExperienceLevel, \
-    EvolutionChain
+from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, WinBattleParams, \
+    GrowthRateExperienceLevel, \
+    EvolutionChain, TypeMatrix
 
 
 def get_evolution_chain(name: str) -> EvolutionChain | None:
@@ -38,6 +39,16 @@ def get_pokemon_list(start: int, end: int) -> PokemonList:
         pokemon_list.append(get_list_pokemon(raw_pokemon["name"]))    
 
     return pokemon_list
+
+
+def get_type_matrix() -> TypeMatrix:
+    all_types = requests.get(f"{API_URL}/type?limit=99").json()["results"]
+    type_names = [type_data["name"] for type_data in all_types]
+    type_matchups = [[type_name] for type_name in type_names]
+    for type_matchup in type_matchups:
+        matchup_data = deserialize_type(requests.get(f"{API_URL}/type/{type_matchup[0]}").json()).offensive_multipliers
+        type_matchup += [matchup_data[type_name] if type_name in matchup_data else None for type_name in type_names]
+    return [type_names] + type_matchups
 
 
 def get_pokemon_species(name: str) -> PokemonSpecies:
