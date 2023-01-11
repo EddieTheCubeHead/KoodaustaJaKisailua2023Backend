@@ -10,8 +10,8 @@ from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpe
     EvolutionChain, TypeMatrix
 
 
-def get_evolution_chain(name: str) -> EvolutionChain | None:
-    family_request = requests.get(f"{API_URL}/pokemon-species/{name}")
+def get_evolution_chain(species_uri: str) -> EvolutionChain | None:
+    family_request = requests.get(species_uri)
     if family_request.status_code == 200 and "url" in family_request.json()["evolution_chain"]:
         species_request = requests.get(family_request.json()["evolution_chain"]["url"])
         return deserialize_evolution_chain(species_request.json())
@@ -20,7 +20,7 @@ def get_evolution_chain(name: str) -> EvolutionChain | None:
 def get_pokemon(name: str) -> Pokemon:
     request = requests.get(f"{API_URL}/pokemon/{name}")
     pokemon = deserialize_pokemon(request.json())
-    pokemon.evolution_chain = get_evolution_chain(name)
+    pokemon.evolution_chain = get_evolution_chain(request.json()["species"]["url"])
     return pokemon
 
 
