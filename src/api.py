@@ -1,6 +1,5 @@
-import requests
-
 from src.application import API_URL
+from src.pokeapi_client import get
 from src.experiences import add_experience, get_experience
 
 from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon, deserialize_pokemon_species, \
@@ -10,27 +9,27 @@ from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpe
 
 
 def get_evolution_chain(name: str) -> EvolutionChain | None:
-    family_request = requests.get(f"{API_URL}/pokemon-species/{name}")
+    family_request = get(f"{API_URL}/pokemon-species/{name}")
     if family_request.status_code == 200 and "url" in family_request.json()["evolution_chain"]:
-        species_request = requests.get(family_request.json()["evolution_chain"]["url"])
+        species_request = get(family_request.json()["evolution_chain"]["url"])
         return deserialize_evolution_chain(species_request.json())
 
 
 def get_pokemon(name: str) -> Pokemon:
-    request = requests.get(f"{API_URL}/pokemon/{name}")
+    request = get(f"{API_URL}/pokemon/{name}")
     pokemon = deserialize_pokemon(request.json())
     pokemon.evolution_chain = get_evolution_chain(name)
     return pokemon
 
 
 def get_list_pokemon(name: str) -> ListPokemon:
-    request = requests.get(f"{API_URL}/pokemon/{name}")
+    request = get(f"{API_URL}/pokemon/{name}")
     pokemon = deserialize_list_pokemon(request.json())
     return pokemon
     
 
 def get_pokemon_list(start: int, end: int) -> PokemonList:
-    request = requests.get(f"{API_URL}/pokemon?limit={end - start}&offset={start}")
+    request = get(f"{API_URL}/pokemon?limit={end - start}&offset={start}")
     results = request.json()["results"]
     pokemon_list = []
 
@@ -41,13 +40,13 @@ def get_pokemon_list(start: int, end: int) -> PokemonList:
 
 
 def get_pokemon_species(name: str) -> PokemonSpecies:
-    request = requests.get(f"{API_URL}/pokemon-species/{name}")
+    request = get(f"{API_URL}/pokemon-species/{name}")
     return deserialize_pokemon_species(request.json())
 
 
 def get_growth_rate_with_pokemon(name: str) -> GrowthRate:
     species = get_pokemon_species(name)
-    request = requests.get(species.growth_rate.url)
+    request = get(species.growth_rate.url)
     return deserialize_growth_rate(request.json())
 
 
@@ -80,5 +79,5 @@ def win_battle(params: WinBattleParams) -> WinBattle:
 
 
 def get_type(name: str) -> Type:
-    request = requests.get(f"{API_URL}/type/{name}")
+    request = get(f"{API_URL}/type/{name}")
     return deserialize_type(request.json())
