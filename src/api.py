@@ -11,7 +11,7 @@ from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpe
 
 def get_evolution_chain(species_uri: str) -> EvolutionChain | None:
     family_request = get(species_uri)
-    if family_request.status_code == 200 and "url" in family_request.json()["evolution_chain"]:
+    if "url" in family_request.json()["evolution_chain"]:
         species_request = get(family_request.json()["evolution_chain"]["url"])
         return deserialize_evolution_chain(species_request.json())
 
