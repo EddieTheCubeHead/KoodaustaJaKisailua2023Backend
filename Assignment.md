@@ -326,8 +326,8 @@ json in the request body:
 With these parameters, the server should calculate the winner pokémon's experience gained if they were to make another
 pokémon with a given level faint in the newest generation. The equation to make this calculation can be found 
 [here](https://bulbapedia.bulbagarden.net/wiki/Experience#Experience_at_each_level:~:text=The%20scaled%20formula%20in%20Generation%20VII).
-The only variables you need to account for are b, L and L_p. Others can be treated as 1. It should then return the
-results in the following model:
+The only variables you need to account for are b, L and L_p. Others can be treated as 1. It should then return the winner
+pokémon's new level and experience in the following model:
 
 ```
 {
