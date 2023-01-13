@@ -2,6 +2,9 @@ import requests
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+############################
+# EXAMPLE CODE STARTS HERE #
+############################
 
 # Creating a FastAPI app
 app = FastAPI()
@@ -19,3 +22,7 @@ async def root():
     response_model = {"name": bulbasaur_data["name"], "pokedex_number": bulbasaur_data["id"],
                       "artwork_link": bulbasaur_data["sprites"]["other"]["official-artwork"]["front_default"]}
     return response_model
+
+##########################
+# EXAMPLE CODE ENDS HERE #
+##########################

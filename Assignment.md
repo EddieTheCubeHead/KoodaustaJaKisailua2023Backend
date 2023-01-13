@@ -31,6 +31,8 @@ Please also read through the [Rules and clarifications](#rules-and-clarification
 
 ---
 
+---
+
 ## Pokémon fetching
 
 The server should be able to fetch pokémon data by pokémon name from PokéAPI. An example of this functionality is 
@@ -153,14 +155,177 @@ returned as `Level up while 1, 2 and 3`. The formatting for all the different co
    the traded pokémon name,
  - `turn_upside_down`: `the console is held upside down`
 
+The evolution chain model in the pokémon fetch route's return model's `evolution_chain` field should look like this
+after this feature is implemented:
+
+```
+{
+   "name": "name1",
+   "pokedex_number": 1,
+   "evolution_condition": "Text here",
+   "evolves_to": [
+      {
+         "name": "name2",
+         "pokedex_number": 2,
+         "evolution_condition": "Text here",
+         "evolves_to": [
+            {
+               "name": "name3",
+               "pokedex_number": 3,
+               "evolution_condition": "Text here",
+               "evolves_to": []
+            }
+         ]
+      },
+      {
+         "name": "name4",
+         "pokedex_number": 4,
+         "evolution_condition": "Text here",
+         "evolves_to": [
+            {
+               "name": "name5",
+               "pokedex_number": 5,
+               "evolution_condition": "Text here",
+               "evolves_to": []
+            }
+         ]
+      }
+   ]
+}
+```
+
+This set of features is worth 20 points.
+
+---
+
+----
+
 ## Pokémon list fetching
+
+The pokémon list fetching feature is not divided into different difficulty levels. This feature requires the server to
+return a listing of simpler data models when queried for the route `GET /pokemon`. The route should have path parameters
+`start` and `end`, which specify the pokédex number of the first and last pokémon to include (unlike list splicing, this
+should include also the last number). An example call for the route 
+
+The model returned for each pokémon found should have the following data:
+
+- **Pokémon name**
+   - Returned as a string in a field named `name`
+ - **Pokémon pokédex number**
+   - Returned as an int in a field named `pokedex_number`
+ - **Pokémon small sprite link**
+   - Returned as a string in a field named `sprite_link`
+ - **Pokémon types**
+   - Returned as a list of strings in a field named `types`
+
+The whole model returned from the route should look like this after this feature is implemented:
+
+```
+[
+   {
+      "name": "name1",
+      "pokedex_number": 1,
+      "sprite_link": "www.sprite1.link",
+      "types": ["type1", "type2"]
+   },
+   {
+      "name": "name2",
+      "pokedex_number": 2,
+      "sprite_link": "www.sprite2.link",
+      "types": ["type3"]
+   }
+   ...
+]
+```
+
+---
+
+---
 
 ## Type fetching
 
+The server should be able to fetch type data by type name.
+
+---
+
 ### <a id="typebasic" /> Basic features
 
-### <a id="typehard" /> Challenging features
+The basic requirements for type data fetching include providing the following data when the server is queried 
+from the route `GET /type/{name}`:
+
+ - **Type name**
+   - Returned as a string in a field named `name`
+ - **Type id**
+   - Returned as an int in a field named `id`
+
+The model returned from the route should look like this after the basic level requirements for this feature are
+implemented:
+
+```
+{
+   "name": "name",
+   "id": 0
+}
+```
+
+---
+
+### <a id="typehard" /> Intermediate features
+
+The intermediate requirements for type data fetching include providing the following data when the server is queried
+from the route `GET /type/{name}`
+
+ - **Type offensive multipliers**
+   - Returned as a dictionary of type name strings, mapped to floats indicating the multiplier amount in a field named
+   `offensive_multipliers`
+ - **Type defensive multipliers**
+   - Returned as a dictionary of type name strings, mapped to floats indicating the multiplier amountin a field named
+   `defensive_multipliers`
+
+The model returned from the route should look like this after the basic and intermediate level requirements for this 
+feature are implemented:
+
+```
+{
+   "name": "name",
+   "id": 0,
+   "offensive_multipliers": {
+      "type1": 0,
+      "type2": 0.5,
+      "type3": 1,
+      "type4": 2
+   },
+   "defensive_multipliers": {
+      "type5": 0,
+      "type6": 0.5,
+      "type7": 1,
+      "type8": 2
+   }
+}
+```
+
+---
+
+---
 
 ## Exp gain and level calculation on battle wins
 
+TODO: explained by Ossi
+
+---
+
+---
+
 ## Rules and clarifications
+
+ - Generally failing to follow a rule will result in a warning. Two warnings will result in a disqualification.
+ Accidentally breaking the rules will not result in a warning if you inform the organizers right away and fix the
+ violation.
+ - Adding packages to requirements.txt requires approvement from the organizers: adding a package without getting an
+ approvement will result in a warning.
+ - All server responses should be based on data fetched from PokéAPI by the server.
+ - Modifying any files under the `/features folder` is strictly forbidden. However, reading the files is allowed and 
+ even encouraged.
+ - You are allowed to edit the example code in app.py. However, you need to keep the `app = FastAPI()` declaration 
+ present in the file and keep the file in the `src` folder for the tests to work.
+ - Asking for help is allowed and encouraged. You can ask for help live, or send a message to the event discord.
