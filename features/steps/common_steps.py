@@ -31,3 +31,13 @@ def step_impl(context: Context):
     expected_model = parse_to_dict(context.table)
     actual_model = context.response.json()
     assert_valid_model(expected_model, actual_model)
+
+
+@then("404 is received")
+def step_impl(context: Context):
+    expected_model = {"detail": "Not Found"}
+    actual_model = context.response.json()
+    assert context.response.status_code == 404, \
+        f"Expected response to have status code 404 but had, " + \
+        context.response.status_code
+    assert_valid_model(expected_model, actual_model)

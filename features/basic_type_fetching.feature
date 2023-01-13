@@ -24,3 +24,8 @@ Feature: Fetching pokemon types by name from the route "/type/{name}", basic lev
     Examples: Electric
       | name      | id |
       | electric  | 13 |
+
+  Scenario: Getting a type that does not exist
+    When getting /type/kaiffari
+    Then 404 is received
+

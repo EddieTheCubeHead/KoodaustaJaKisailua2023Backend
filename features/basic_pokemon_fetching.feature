@@ -42,3 +42,8 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", basic level
       | name           | ditto       |
       | pokedex_number | 132         |
       | artwork_link   | https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png |
+
+  Scenario: Getting a pokemon that does not exist
+    When getting /pokemon/pikacu
+    Then 404 is received
+

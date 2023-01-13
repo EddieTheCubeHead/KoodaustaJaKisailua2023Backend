@@ -1,6 +1,5 @@
-import requests
-
 from src.application import API_URL
+from src.pokeapi_client import get
 from src.experiences import add_experience, get_experience
 
 from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon, deserialize_pokemon_species, \
@@ -11,27 +10,27 @@ from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpe
 
 
 def get_evolution_chain(species_uri: str) -> EvolutionChain | None:
-    family_request = requests.get(species_uri)
-    if family_request.status_code == 200 and "url" in family_request.json()["evolution_chain"]:
-        species_request = requests.get(family_request.json()["evolution_chain"]["url"])
+    family_request = get(species_uri)
+    if "url" in family_request.json()["evolution_chain"]:
+        species_request = get(family_request.json()["evolution_chain"]["url"])
         return deserialize_evolution_chain(species_request.json())
 
 
 def get_pokemon(name: str) -> Pokemon:
-    request = requests.get(f"{API_URL}/pokemon/{name}")
+    request = get(f"{API_URL}/pokemon/{name}")
     pokemon = deserialize_pokemon(request.json())
     pokemon.evolution_chain = get_evolution_chain(request.json()["species"]["url"])
     return pokemon
 
 
 def get_list_pokemon(name: str) -> ListPokemon:
-    request = requests.get(f"{API_URL}/pokemon/{name}")
+    request = get(f"{API_URL}/pokemon/{name}")
     pokemon = deserialize_list_pokemon(request.json())
     return pokemon
     
 
 def get_pokemon_list(start: int, end: int) -> PokemonList:
-    request = requests.get(f"{API_URL}/pokemon?limit={end - start}&offset={start}")
+    request = get(f"{API_URL}/pokemon?limit={end - start}&offset={start}")
     results = request.json()["results"]
     pokemon_list = []
 
@@ -42,23 +41,23 @@ def get_pokemon_list(start: int, end: int) -> PokemonList:
 
 
 def get_type_matrix() -> TypeMatrix:
-    all_types = requests.get(f"{API_URL}/type?limit=99").json()["results"]
+    all_types = get(f"{API_URL}/type?limit=99").json()["results"]
     type_names = [type_data["name"] for type_data in all_types if type_data["name"] not in ("unknown", "shadow")]
     type_matchups = [[type_name] for type_name in type_names]
     for type_matchup in type_matchups:
-        matchup_data = deserialize_type(requests.get(f"{API_URL}/type/{type_matchup[0]}").json()).offensive_multipliers
+        matchup_data = deserialize_type(get(f"{API_URL}/type/{type_matchup[0]}").json()).offensive_multipliers
         type_matchup += [matchup_data[type_name] if type_name in matchup_data else 1 for type_name in type_names]
     return [type_names] + type_matchups
 
 
 def get_pokemon_species(name: str) -> PokemonSpecies:
-    request = requests.get(f"{API_URL}/pokemon-species/{name}")
+    request = get(f"{API_URL}/pokemon-species/{name}")
     return deserialize_pokemon_species(request.json())
 
 
 def get_growth_rate_with_pokemon(name: str) -> GrowthRate:
     species = get_pokemon_species(name)
-    request = requests.get(species.growth_rate.url)
+    request = get(species.growth_rate.url)
     return deserialize_growth_rate(request.json())
 
 
@@ -91,5 +90,5 @@ def win_battle(params: WinBattleParams) -> WinBattle:
 
 
 def get_type(name: str) -> Type:
-    request = requests.get(f"{API_URL}/type/{name}")
+    request = get(f"{API_URL}/type/{name}")
     return deserialize_type(request.json())
