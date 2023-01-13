@@ -4,6 +4,7 @@ from behave.runner import Context
 
 from features.steps.step_helpers import assert_valid_model_list
 
+
 @then("list {json_file} is received")
 def json_is_received(context: Context, json_file: str):
     file = open(json_file)
