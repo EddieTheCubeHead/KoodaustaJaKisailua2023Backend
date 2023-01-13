@@ -1,10 +1,10 @@
-# Koodausta ja Kisailua 2023
+﻿# Koodausta ja Kisailua 2023
 
 ---
 
 ## Coding assignment: PokéHub
 
-The goal of this coding assignment to write a data fetcher and parser backend server to provide data to a 
+The goal of this coding assignment is to write a data fetcher and parser backend server to provide data to a 
 ready-made frontend. The backend fetches data from the PokéAPI API. PokéAPI documentation is available at 
 https://pokeapi.co/.
 
@@ -25,7 +25,7 @@ different difficulty levels. These categories and difficulties are the following
  - [Type fetching](#type-fetching)
    - [Basic](#typebasic)
    - [Challenging](#typehard)
- - [Exp gain and level calculation on winning battle](#exp-gain-and-level-calculation-on-battle-wins)
+ - [Battle level gain](#battle-level-gain)
 
 Please also read through the [Rules and clarifications](#rules-and-clarifications) section.
 
@@ -308,9 +308,39 @@ feature are implemented:
 
 ---
 
-## Exp gain and level calculation on battle wins
+###  Battle level gain
 
-TODO: explained by Ossi
+In the battle level gain feature, the server should provide a `POST /win-battle` endpoint that accepts the following
+json in the request body:
+
+```
+{
+    "winner_name": str,
+    "fainted": {
+        "name": str,
+        "level": int
+    }
+}
+```
+
+With these parameters, the server should calculate the winner pokémon's experience gained if they were to make another
+pokémon with a given level faint in the newest generation. The equation to make this calculation can be found 
+[here](https://bulbapedia.bulbagarden.net/wiki/Experience#Experience_at_each_level:~:text=The%20scaled%20formula%20in%20Generation%20VII).
+The only variables you need to account for are b, L and L_p. Others can be treated as 1. It should then return the
+results in the following model:
+
+```
+{
+    "level": int
+    "experience": int
+}
+```
+
+Note that experience should be rounded to the nearest integer.
+
+To get the full points from this feature, the server should also be able to remember every winner's level and experience. 
+When the endpoint is called again with `winner_name` that it has seen earlier, it should perform the equation using the 
+stored level and experience. This should be done with an in-memory database so that it is reset between runs.
 
 ---
 
