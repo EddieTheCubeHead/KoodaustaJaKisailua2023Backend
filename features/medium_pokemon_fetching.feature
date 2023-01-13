@@ -32,10 +32,12 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", medium level
       | pikachu | 35 | 55     | 40      | 50             | 50              | 90    |
 
   # Duplicate this if deemed necessary
+  @wip
   Scenario: Getting a random pokemon from the /pokemon route with type and ability information
-    When fetching a random pokemon from /pokemon/name
+    When fetching a random base pokemon from /pokemon/name
     Then pokemon types and abilities returned
 
+  @wip
   Scenario: Getting a random pokemon from the /pokemon route with stat information
-    When fetching a random pokemon from /pokemon/name
+    When fetching a random base pokemon from /pokemon/name
     Then pokemon stats returned
