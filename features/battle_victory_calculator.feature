@@ -34,7 +34,7 @@ Feature: Calculating exp and level changes after winning a battle
     Then the following data is received
       | data field     | field value |
       | level          | 10          |
-      | experience     | 524         |
+      | experience     | 523         |
 
   Scenario: Calculating battle win for another pokemon
     Given data

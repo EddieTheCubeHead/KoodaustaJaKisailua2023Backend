@@ -1,4 +1,4 @@
-﻿experiences: {str, float} = {}
+﻿experiences: dict[str, float] = {}
 
 
 def add_experience(pokemon_name: str, value: int):
