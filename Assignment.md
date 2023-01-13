@@ -336,11 +336,12 @@ pokémon's new level and experience in the following model:
 }
 ```
 
-Note that experience should be rounded to the nearest integer.
+Note that experience should be rounded to the nearest integer right when it is calculated.
 
 To get the full points from this feature, the server should also be able to remember every winner's level and experience. 
 When the endpoint is called again with `winner_name` that it has seen earlier, it should perform the equation using the 
-stored level and experience. This should be done with an in-memory database so that it is reset between runs.
+stored level and experience. If the pokémon has not won before, its experience is at its base_experience and level depends
+on the growth rate of the pokémon. This should be done with an in-memory database so that it is reset between runs.
 
 ---
 
