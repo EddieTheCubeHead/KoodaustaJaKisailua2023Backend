@@ -5,10 +5,12 @@ from behave.runner import Context
 
 
 def get(context: Context, route: str):
+    print(f"GET {route}")
     context.response = context.client.get(route)
 
 
 def post(context: Context, route: str):
+    print(f"POST {route}")
     context.response = context.client.post(route, data=json.dumps(context.data))
 
 
