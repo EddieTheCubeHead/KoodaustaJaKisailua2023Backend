@@ -205,8 +205,8 @@ This set of features is worth 20 points.
 
 The pokémon list fetching feature is not divided into different difficulty levels. This feature requires the server to
 return a listing of simpler data models when queried for the route `GET /pokemon`. The route should have path parameters
-`start` and `end`, which specify the pokédex number of the first and last pokémon to include (unlike list splicing, this
-should include also the last number). An example call for the route 
+`start` and `end`, which specify the start and end of the search. The indexing should treat the pokémon list as 
+starting from 0 and should exclude the index given as the ending index.
 
 The model returned for each pokémon found should have the following data:
 

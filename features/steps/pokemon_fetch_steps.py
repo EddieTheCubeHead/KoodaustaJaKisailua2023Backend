@@ -57,3 +57,12 @@ def step_impl(context):
     expected_model = {name: value["base_stat"] for name, value in zip(stats, pokemon_data["stats"])}
     actual_model = context.response.json()["stats"]
     assert_valid_model(expected_model, actual_model)
+
+
+@then("models named {expected_names_raw} received")
+def step_impl(context: Context, expected_names_raw: str):
+    expected_names_raw.replace("and", ",")
+    expected_names = expected_names_raw.split(", ")
+    actual_names = [model["name"] for model in context.response.json()]
+    for expected_name in expected_names:
+        assert expected_name in actual_names, f"Expected to find {expected_name} in {actual_names}"

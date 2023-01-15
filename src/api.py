@@ -1,4 +1,4 @@
-from pokemon_fetching import get_pokemon_data
+from pokemon_fetching import get_pokemon_data, try_get_default_variety
 from src.application import API_URL
 from src.pokeapi_client import get
 from src.experiences import add_experience, get_experience
@@ -14,13 +14,15 @@ def get_pokemon(name: str) -> Pokemon:
 
 
 def get_list_pokemon(name: str) -> ListPokemon:
-    request = get(f"{API_URL}/pokemon/{name}")
+    variety_name = try_get_default_variety(name)
+    request = get(f"{API_URL}/pokemon/{variety_name}")
     pokemon = deserialize_list_pokemon(request.json())
+    pokemon.name = name
     return pokemon
     
 
 def get_pokemon_list(start: int, end: int) -> PokemonList:
-    request = get(f"{API_URL}/pokemon?limit={end - start}&offset={start}")
+    request = get(f"{API_URL}/pokemon-species?limit={end - start}&offset={start}")
     results = request.json()["results"]
     pokemon_list = []
 

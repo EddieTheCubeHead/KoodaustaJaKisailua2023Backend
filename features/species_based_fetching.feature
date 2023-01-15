@@ -7,7 +7,6 @@ Feature: Fetching pokemon data based on pokemon species
   #  - pokemon list fetching should return the list based on species listed in PokeAPI. The list should use default
   #    variety data
 
-  @wip
   Scenario Outline: Getting a pokemon from the /pokemon route, species cases
     When getting /pokemon/<name>
     Then the following data is received
@@ -24,7 +23,6 @@ Feature: Fetching pokemon data based on pokemon species
       | name   | form_name     | id  | pokedex_number |
       | deoxys | deoxys-normal | 386 | 386            |
 
-  @wip
   Scenario Outline: Getting pokemon from the /pokemon route, species cases, no artwork
     When getting /pokemon/<name>
     Then the following data is received
@@ -36,3 +34,12 @@ Feature: Fetching pokemon data based on pokemon species
     Examples: Getting
       | name     | form_name | pokedex_number |
       | miraidon | miraidon  | None           |
+
+  @wip
+  Scenario Outline: Getting pokemon list from ranges where species based fetching matters
+    When getting /pokemon?start=<start>&end=<end>
+    Then models named <expected_names> received
+
+    Examples:
+      | start | end | expected_names           |
+      | 384   | 387 | jirachi, deoxys, turtwig |
