@@ -129,14 +129,17 @@ condition should be the first part of the evolution condition string mapped acco
  - `level-up` should produce the text `Level up`, with possible condition explanation
  - `trade` should produce the text `Trade`, with possible condition explanation
  - `use-item` should produce the text `Use the item {item_name}`, where `item_name` is the english localization name 
-   of the item, available through the `names` field in the PokéAPI `/item/{id}` endpoint. The item that should be 
-   used can be found in the `item` field of the evolution detail model. No further condition explanation is necessary.
+   of the item, available through the `names` field in the PokéAPI `/item/{id}` endpoint, or the item default name 
+   if no localization for names is available. The item that should be used can be found in the `item` field of the 
+   evolution detail model. No further condition explanation is necessary.
  - `shed` should produce the text `Have a free slot in your party and at least one poke ball while evolving Nincada 
    into Ninjask`. No further condition explanation is necessary.
  - `agile-style-move` should produce the text `Use agile style {move_name} 20 times`, where `move_name` is the 
-   english localization of the move name. No further condition explanation is necessary.
+   english localization of the move name. The move that should be used can be found in the `known_move` field of the 
+   evolution detail model. No further condition explanation is necessary.
  - `strong-style-move` should produce the text `Use strong style {move_name} 20 times`, where `move_name` is the 
-   english localization of the move name. No further condition explanation is necessary.
+   english localization of the move name. The move that should be used can be found in the `known_move` field of the 
+   evolution detail model. No further condition explanation is necessary.
  - `recoil-damage` should produce the text. `Lose at least 294 hp from recoil without fainting`. No further 
    condition explanation is necessary.
  - Other triggers should fetch the trigger explanation localized in english from the PokéAPI `evolution_trigger/{id}` 
@@ -204,7 +207,7 @@ after this feature is implemented:
 }
 ```
 
-This feature is worth 23 points.
+This feature is worth 24 points.
 
 ---
 
