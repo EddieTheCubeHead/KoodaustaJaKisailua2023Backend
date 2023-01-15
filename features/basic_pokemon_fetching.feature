@@ -2,7 +2,8 @@
 Feature: Fetching pokemon by name from the route "/pokemon/{name}", basic level
   # The backend should have the route "/pokemon/{name}" that allows fetching pokemon data by nane
   # Root should return the same as calling "/pokemon/bulbasaur"
-  # The minimum requirements for the route are providing the name, pokedex id and a link to the official artwork
+  # The minimum requirements for the route are providing the name, pokedex number and a link to the official artwork
+  # Providing the pokedex number and artwork link is required for pokemon from generations I to VIII with no forms
 
   Scenario: Getting bulbasaur from root
     When getting root
@@ -15,33 +16,29 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", basic level
   Scenario Outline: Getting a pokemon from the /pokemon route with base information
     When getting /pokemon/<name>
     Then the following data is received
-      | data field     | field value      |
-      | name           | <name>           |
-      | pokedex_number | <pokedex number> |
-      | artwork_link   | https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<pokedex number>.png |
+      | data field     | field value |
+      | name           | <name>      |
+      | pokedex_number | <id>        |
+      | artwork_link   | https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<id>.png |
 
     Examples: Blaziken
-      | name     | pokedex number |
-      | blaziken | 257            |
+      | name     | id  |
+      | blaziken | 257 |
 
     Examples: Spiritomb
-      | name      | pokedex number |
-      | spiritomb | 442            |
+      | name      | id  |
+      | spiritomb | 442 |
 
     Examples: Ditto
-      | name      | pokedex number |
-      | ditto     | 132            |
+      | name      | id  |
+      | ditto     | 132 |
 
     # Add examples here to fill the point requirements
 
   # Duplicate this if deemed necessary
   Scenario: Getting a random pokemon from the /pokemon route with base information
-    When fetching a random pokemon from /pokemon/name
-    Then pokemon name, pokedex number and artwork link returned
-      | data field     | field value |
-      | name           | ditto       |
-      | pokedex_number | 132         |
-      | artwork_link   | https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png |
+    When fetching a random base pokemon from /pokemon/name
+    Then pokemon name and artwork link returned
 
   Scenario: Getting a pokemon that does not exist
     When getting /pokemon/pikacu

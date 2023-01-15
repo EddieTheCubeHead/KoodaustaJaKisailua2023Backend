@@ -33,9 +33,9 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", medium level
 
   # Duplicate this if deemed necessary
   Scenario: Getting a random pokemon from the /pokemon route with type and ability information
-    When fetching a random pokemon from /pokemon/name
+    When fetching a random base pokemon from /pokemon/name
     Then pokemon types and abilities returned
-
+    
   Scenario: Getting a random pokemon from the /pokemon route with stat information
-    When fetching a random pokemon from /pokemon/name
+    When fetching a random base pokemon from /pokemon/name
     Then pokemon stats returned

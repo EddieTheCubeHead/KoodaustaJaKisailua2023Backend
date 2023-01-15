@@ -1,36 +1,28 @@
+from src.pokemon_fetching import get_pokemon_data, try_get_default_variety
 from src.application import API_URL
 from src.pokeapi_client import get
 from src.experiences import add_experience, get_experience
 
-from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon, deserialize_pokemon_species, \
-    deserialize_evolution_chain, deserialize_type
-from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, WinBattleParams, \
-    GrowthRateExperienceLevel, \
-    EvolutionChain, TypeMatrix
-
-
-def get_evolution_chain(species_uri: str) -> EvolutionChain | None:
-    family_request = get(species_uri)
-    if "url" in family_request.json()["evolution_chain"]:
-        species_request = get(family_request.json()["evolution_chain"]["url"])
-        return deserialize_evolution_chain(species_request.json())
+from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon_species, \
+    deserialize_type
+from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, \
+    WinBattleParams, GrowthRateExperienceLevel, TypeMatrix
 
 
 def get_pokemon(name: str) -> Pokemon:
-    request = get(f"{API_URL}/pokemon/{name}")
-    pokemon = deserialize_pokemon(request.json())
-    pokemon.evolution_chain = get_evolution_chain(request.json()["species"]["url"])
-    return pokemon
+    return get_pokemon_data(name)
 
 
 def get_list_pokemon(name: str) -> ListPokemon:
-    request = get(f"{API_URL}/pokemon/{name}")
+    variety_name = try_get_default_variety(name)
+    request = get(f"{API_URL}/pokemon/{variety_name}")
     pokemon = deserialize_list_pokemon(request.json())
+    pokemon.name = name
     return pokemon
     
 
 def get_pokemon_list(start: int, end: int) -> PokemonList:
-    request = get(f"{API_URL}/pokemon?limit={end - start}&offset={start}")
+    request = get(f"{API_URL}/pokemon-species?limit={end - start}&offset={start}")
     results = request.json()["results"]
     pokemon_list = []
 

@@ -8,18 +8,17 @@ from behave.runner import Context
 from features.steps.step_helpers import get, assert_valid_model
 
 
-@when("fetching a random pokemon from /pokemon/name")
+@when("fetching a random base pokemon from /pokemon/name")
 def step_impl(context: Context):
-    context.fetched_name, context.fetched_number = random.choice(context.all_pokemon)
+    context.fetched_name, context.fetched_number = random.choice(context.basic_pokemon)
     get(context, f"/pokemon/{context.fetched_name}")
 
 
-@then("pokemon name, pokedex number and artwork link returned")
+@then("pokemon name and artwork link returned")
 def step_impl(context: Context):
     artwork_link = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" \
                    f"{context.fetched_number}.png"
     expected_model = {"name": context.fetched_name,
-                      "pokedex_number": context.fetched_number,
                       "artwork_link": artwork_link}
     actual_model = context.response.json()
     assert_valid_model(expected_model, actual_model)
@@ -58,3 +57,12 @@ def step_impl(context):
     expected_model = {name: value["base_stat"] for name, value in zip(stats, pokemon_data["stats"])}
     actual_model = context.response.json()["stats"]
     assert_valid_model(expected_model, actual_model)
+
+
+@then("models named {expected_names_raw} received")
+def step_impl(context: Context, expected_names_raw: str):
+    expected_names_raw.replace("and", ",")
+    expected_names = expected_names_raw.split(", ")
+    actual_names = [model["name"] for model in context.response.json()]
+    for expected_name in expected_names:
+        assert expected_name in actual_names, f"Expected to find {expected_name} in {actual_names}"

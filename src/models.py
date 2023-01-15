@@ -24,8 +24,8 @@ class EvolutionChain:
 @dataclass
 class Pokemon:  # route: /pokemon/{name}
     name: str
-    pokedex_number: int
-    artwork_link: str
+    pokedex_number: int | None
+    artwork_link: str | None
     types: list[str]
     abilities: list[str]
     stats: Stats
