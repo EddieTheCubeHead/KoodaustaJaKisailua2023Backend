@@ -22,12 +22,17 @@ def _parse_evolution_condition(json: dict) -> str:
         "trade": "Trade",
         "use-item": "Use the item",
         "shed": "Have a free slot in your party and at least one poke ball while evolving Nincada into Ninjask",
+        "agile-style-move": "Use agile style {} 20 times",
+        "strong-style-move": "Use strong style {} 20 times",
+        "recoil-damage": "Lose at least 294 hp from recoil without fainting"
     }
+    formatted_triggers = ("agile-style-move", "strong-style-move")
     if json['trigger']['name'] in triggers:
         trigger_string = triggers[json['trigger']['name']]
     else:
         trigger_string = _get_english_translation_for_entry(json['trigger']['url'])
-    return f"{trigger_string}{_parse_evolution_details(json)}"
+    return f"{trigger_string}{_parse_evolution_details(json)}" if json["trigger"]["name"] not in formatted_triggers \
+        else trigger_string.format(_get_english_translation_for_entry(json["known_move"]["url"]))
 
 
 def _parse_evolution_details(json: dict):
