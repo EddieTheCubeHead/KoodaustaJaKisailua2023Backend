@@ -183,3 +183,28 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", medium featu
     cofagrigus, 563, Level up while level is at least 34, []
     runerigus, 867, Go somewhere after taking damage, []
     """
+
+  Scenario: Getting use agile style move evolution information
+    When getting /pokemon/stantler
+    Then the following evolution chain is received
+    """
+    stantler, 234, , [wyrdeer]
+    wyrdeer, 899, Use agile style Psyshield Bash 20 times, []
+    """
+
+  Scenario: Getting use strong style move evolution information
+    When getting /pokemon/overqwil
+    Then the following evolution chain is received
+    """
+    qwilfish, 211, , [overqwil]
+    overqwil, 904, Use strong style Barb Barrage 20 times, []
+    """
+
+  Scenario: Getting take recoil evolution information
+    When getting /pokemon/basculin
+    Then the following evolution chain is received
+    """
+    basculin, 550, , [basculegion]
+    basculegion, 902, Lose at least 294 hp from recoil without fainting, []
+    """
+
