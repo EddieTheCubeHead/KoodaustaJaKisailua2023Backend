@@ -14,8 +14,6 @@ def get_species_pokedex_number(species_url: str) -> int | None:
 
 
 def get_pokemon_data(name: str) -> Pokemon:
-    if name == "snorlax":
-        raise Exception
     variety_name = try_get_default_variety(name)
     form_request = get(f"{API_URL}/pokemon/{variety_name}")
     pokemon = deserialize_pokemon(form_request.json())
