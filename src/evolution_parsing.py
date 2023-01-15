@@ -146,5 +146,6 @@ def _parse_upside_down(condition: bool) -> str:
 
 
 def _get_english_translation_for_entry(url: str) -> str:
-    names = requests.get(url).json()["names"]
-    return next(name["name"] for name in names if name["language"]["name"] == "en")
+    response = requests.get(url).json()
+    names = response["names"]
+    return next((name["name"] for name in names if name["language"]["name"] == "en"), response["name"])
