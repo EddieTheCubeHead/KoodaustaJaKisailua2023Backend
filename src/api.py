@@ -1,27 +1,16 @@
+from pokemon_fetching import get_pokemon_data
 from src.application import API_URL
 from src.pokeapi_client import get
 from src.experiences import add_experience, get_experience
 
-from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon, deserialize_pokemon_species, \
+from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon_species, \
     deserialize_evolution_chain, deserialize_type
-from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, WinBattleParams, \
-    GrowthRateExperienceLevel, \
-    EvolutionChain, TypeMatrix
-
-
-def get_evolution_chain(species_uri: str) -> EvolutionChain | None:
-    family_request = get(species_uri)
-    response = family_request.json()
-    if "evolution_chain" in response and "url" in response["evolution_chain"]:
-        species_request = get(family_request.json()["evolution_chain"]["url"])
-        return deserialize_evolution_chain(species_request.json())
+from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, \
+    WinBattleParams, GrowthRateExperienceLevel, EvolutionChain, TypeMatrix
 
 
 def get_pokemon(name: str) -> Pokemon:
-    request = get(f"{API_URL}/pokemon/{name}")
-    pokemon = deserialize_pokemon(request.json())
-    pokemon.evolution_chain = get_evolution_chain(request.json()["species"]["url"])
-    return pokemon
+    return get_pokemon_data(name)
 
 
 def get_list_pokemon(name: str) -> ListPokemon:

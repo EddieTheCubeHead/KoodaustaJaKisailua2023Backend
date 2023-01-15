@@ -22,6 +22,7 @@ different difficulty levels. These categories and difficulties are the following
    - [Intermediate](#pokemedium)
    - [Challenging](#pokehard)
  - [Pokémon list fetching](#pokémon-list-fetching)
+ - [Pokémon data fetching based on species](#pokespecies)
  - [Type fetching](#type-fetching)
    - [Basic](#typebasic)
    - [Challenging](#typehard)
@@ -239,6 +240,30 @@ The whole model returned from the route should look like this after this feature
 ```
 
 ---
+
+---
+
+### <a id="pokespecies" /> Pokémon data fetching based on species
+
+---
+
+For most pokémon data fetching based on the example given in the root route bulbasaur fetch works fine. However, for
+some pokémon with multiple forms and for pokémon of the newest generation (IX), there might be noticeable problems. This
+is because the `/pokemon/{name}` endpoint in PokéAPI returns data for one form of pokémon, not one pokémon _species_.
+The species data is available from `/pokemon-species/{name}`.
+
+This requirement is changing the data fetching to happen based on pokémon species instead of pokémon form. This 
+encompasses changing pokémon list fetching as well. The changes in returned data are as follows:
+
+ - For pokémon data fetching, getting a pokémon by form name should still be possible, however if the name of the
+ pokémon in the request is a species name, the returned data should be of the default variety of the species. You can
+ try this out yourself by getting the data of Deoxys and it's forms: `deoxys`, `deoxys-normal`, `deoxys-attack`, 
+ `deoxys-defense` and `deoxys-speed`
+ - The example route uses pokémon ID as the pokédex number. This works fine for most pokémon, but provides false data
+ for some forms and some newer varieties of pokémon. The pokédex number of a pokémon should come from its species data
+ and should be a nullable integer field.
+ - For pokémon list fetching, the list returned should be of pokémon species instead of pokémon. The returned data 
+ should be of the base variety of the species.
 
 ---
 

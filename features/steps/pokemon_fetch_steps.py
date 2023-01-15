@@ -10,7 +10,7 @@ from features.steps.step_helpers import get, assert_valid_model
 
 @when("fetching a random base pokemon from /pokemon/name")
 def step_impl(context: Context):
-    context.fetched_name, context.fetched_number = random.choice(context.all_pokemon)
+    context.fetched_name, context.fetched_number = random.choice(context.basic_pokemon)
     get(context, f"/pokemon/{context.fetched_name}")
 
 

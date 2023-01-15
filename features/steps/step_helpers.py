@@ -19,6 +19,8 @@ def parse_string_list(value: str):
 def parse_value(value: str):
     if value.isnumeric():
         return int(value)
+    if value == "None":
+        return None
     if re.match(r"\[(?:[\w -]+, )*([\w -]+)]", value):  # list of words: [word, word] or [word]
         return parse_string_list(value)
     json_matches = re.findall(r"(?<=json\().*(?=\))", value)

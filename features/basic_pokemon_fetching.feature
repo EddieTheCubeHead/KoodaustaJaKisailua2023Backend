@@ -2,7 +2,8 @@
 Feature: Fetching pokemon by name from the route "/pokemon/{name}", basic level
   # The backend should have the route "/pokemon/{name}" that allows fetching pokemon data by nane
   # Root should return the same as calling "/pokemon/bulbasaur"
-  # The minimum requirements for the route are providing the name, pokedex id and a link to the official artwork
+  # The minimum requirements for the route are providing the name, pokedex number and a link to the official artwork
+  # Providing the pokedex number and artwork link is required for pokemon from generations I to VIII with no forms
 
   Scenario: Getting bulbasaur from root
     When getting root
@@ -15,8 +16,9 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", basic level
   Scenario Outline: Getting a pokemon from the /pokemon route with base information
     When getting /pokemon/<name>
     Then the following data is received
-      | data field     | field value      |
-      | name           | <name>           |
+      | data field     | field value |
+      | name           | <name>      |
+      | pokedex_number | <id>        |
       | artwork_link   | https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<id>.png |
 
     Examples: Blaziken
