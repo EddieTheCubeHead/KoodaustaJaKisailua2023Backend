@@ -35,7 +35,6 @@ Feature: Fetching pokemon data based on pokemon species
       | name     | form_name | pokedex_number |
       | miraidon | miraidon  | None           |
 
-  @wip
   Scenario Outline: Getting pokemon list from ranges where species based fetching matters
     When getting /pokemon?start=<start>&end=<end>
     Then models named <expected_names> received

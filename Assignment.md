@@ -12,7 +12,9 @@ The server will be built using FastAPI library. Setup code and an example for pr
 are provided in app.py file so contestants can focus on implementing the data fetching
 
 The assignment is scored based on successful tests in the test set. Once you have cloned the repository and 
-installed the dependencies based on README.md you can run the tests by running `behave` in the root directory.
+installed the dependencies based on README.md you can run the tests by running `behave` in the root directory. Each 
+feature description here also contains the amount of points the feature is worth, which is equal to the amount of tests 
+verifying said feature.
 
 The features that will be scored are divided into categories and most of these categories are further divided into 
 different difficulty levels. These categories and difficulties are the following:
@@ -25,7 +27,8 @@ different difficulty levels. These categories and difficulties are the following
  - [Pokémon data fetching based on species](#pokespecies)
  - [Type fetching](#type-fetching)
    - [Basic](#typebasic)
-   - [Challenging](#typehard)
+   - [Intermediate](#typehard)
+   - [Challenging](#typematrix)
  - [Battle level gain](#battle-level-gain)
 
 Please also read through the [Rules and clarifications](#rules-and-clarifications) section.
@@ -63,7 +66,7 @@ The Pokémon model returned from the route should look like this after this set 
 ```
 See the root route bulbasaur fetch for example if needed.
 
-This set of features is worth 5 points.
+This set of features is worth 6 points.
 
 ---
 
@@ -195,7 +198,7 @@ after this feature is implemented:
 }
 ```
 
-This set of features is worth 20 points.
+This feature is worth 20 points.
 
 ---
 
@@ -238,6 +241,7 @@ The whole model returned from the route should look like this after this feature
    ...
 ]
 ```
+This feature is worth 4 points.
 
 ---
 
@@ -264,6 +268,8 @@ encompasses changing pokémon list fetching as well. The changes in returned dat
  and should be a nullable integer field.
  - For pokémon list fetching, the list returned should be of pokémon species instead of pokémon. The returned data 
  should be of the base variety of the species.
+
+This set of features is worth 4 points.
 
 ---
 
@@ -293,6 +299,8 @@ implemented:
 }
 ```
 
+This feature is worth 5 points.
+
 ---
 
 ### <a id="typehard" /> Intermediate features
@@ -304,7 +312,7 @@ from the route `GET /type/{name}`
    - Returned as a dictionary of type name strings, mapped to floats indicating the multiplier amount in a field named
    `offensive_multipliers`
  - **Type defensive multipliers**
-   - Returned as a dictionary of type name strings, mapped to floats indicating the multiplier amountin a field named
+   - Returned as a dictionary of type name strings, mapped to floats indicating the multiplier amount in a field named
    `defensive_multipliers`
 
 The model returned from the route should look like this after the basic and intermediate level requirements for this 
@@ -328,6 +336,33 @@ feature are implemented:
    }
 }
 ```
+This feature is worth 4 points.
+
+---
+
+## <a id="typematrix" /> Challenging features
+
+The challenging requirements for type data fetching is to provide a matrix of type matchups from the route `GET /types`.
+The matrix should contain all types available in the newest generation (generation IX). Unknown and Shadow -types are
+not viable types for a pokémon in the newest generation and should be excluded from the matrix.
+
+The matrix should be a list of lists. The first list is the top row of the matrix, containing all type names as strings,
+the rest of the rows should have a type name in the beginning and then house that type's **offensive** matchups against
+all types (including itself) in the order specified in the top row given as integers or floats. The order of these rows 
+should be the same as the order of types is in the top row.
+
+The model returned from the route should look like this after the feature is implemented:
+
+```
+[
+    ["type1", "type2", "type3"],
+    ["type1", 1, 2, 0.5],
+    ["type2", 0.5, 1, 2],
+    ["type3", 2, 0.5, 1]
+]
+```
+
+This feature is worth 3 points.
 
 ---
 
@@ -367,6 +402,8 @@ To get the full points from this feature, the server should also be able to reme
 When the endpoint is called again with `winner_name` that it has seen earlier, it should perform the equation using the 
 stored level and experience. If the pokémon has not won before, its experience is at its base_experience and level depends
 on the growth rate of the pokémon. This should be done with an in-memory database so that it is reset between runs.
+
+This feature is worth 6 points.
 
 ---
 
