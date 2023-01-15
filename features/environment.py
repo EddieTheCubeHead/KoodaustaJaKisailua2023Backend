@@ -5,9 +5,13 @@ from starlette.testclient import TestClient
 from src.routes import app
 
 
+_DEFAULT_REPETITIONS = 10
+
+
 def before_all(context: Context):
     context.client = TestClient(app)
     context.response = None
+    context.repetitions = int(context.config.userdata.get("repetitions", _DEFAULT_REPETITIONS))
     all_pokemon_raw = requests.get("https://pokeapi.co/api/v2/pokemon?limit=9999").json()["results"]
     all_species_raw = requests.get("https://pokeapi.co/api/v2/pokemon-species?limit=9999").json()["results"]
     all_species = [species["name"] for species in all_species_raw]
