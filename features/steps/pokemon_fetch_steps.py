@@ -4,33 +4,49 @@ import requests
 from behave import *
 from behave.model import Table
 from behave.runner import Context
+from requests import Response
 
 from features.steps.step_helpers import get, assert_valid_model
 
 
+class FetchTestCase:
+
+    def __init__(self, name: str, pokemon_id: int, response: Response):
+        self.name = name
+        self.pokemon_id = pokemon_id
+        self.response = response
+
+
 @when("fetching a random base pokemon from /pokemon/name")
 def step_impl(context: Context):
-    context.fetched_name, context.fetched_number = random.choice(context.basic_pokemon)
-    get(context, f"/pokemon/{context.fetched_name}")
+    context.fetched = []
+    for _ in range(context.repetitions):
+        fetched_name, fetched_number = random.choice(context.basic_pokemon)
+        route = f"/pokemon/{fetched_name}"
+        print(f"GET {route}")
+        response = context.client.get(route)
+        context.fetched.append(FetchTestCase(fetched_name, fetched_number, response))
 
 
 @then("pokemon name and artwork link returned")
 def step_impl(context: Context):
-    artwork_link = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" \
-                   f"{context.fetched_number}.png"
-    expected_model = {"name": context.fetched_name,
-                      "artwork_link": artwork_link}
-    actual_model = context.response.json()
-    assert_valid_model(expected_model, actual_model)
+    for test_case in context.fetched:
+        artwork_link = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/" \
+                       f"official-artwork/{test_case.pokemon_id}.png"
+        expected_model = {"name": test_case.name,
+                          "artwork_link": artwork_link}
+        actual_model = test_case.response.json()
+        assert_valid_model(expected_model, actual_model)
 
 
 @then("pokemon types and abilities returned")
 def step_impl(context: Context):
-    pokemon_data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{context.fetched_name}").json()
-    expected_model = {"types": [typing["type"]["name"] for typing in pokemon_data["types"]],
-                      "abilities": [ability["ability"]["name"] for ability in pokemon_data["abilities"]]}
-    actual_model = context.response.json()
-    assert_valid_model(expected_model, actual_model)
+    for test_case in context.fetched:
+        pokemon_data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{test_case.name}").json()
+        expected_model = {"types": [typing["type"]["name"] for typing in pokemon_data["types"]],
+                          "abilities": [ability["ability"]["name"] for ability in pokemon_data["abilities"]]}
+        actual_model = test_case.response.json()
+        assert_valid_model(expected_model, actual_model)
 
 
 def parse_stats(table: Table):
@@ -52,11 +68,12 @@ def step_impl(context: Context):
 
 @then("pokemon stats returned")
 def step_impl(context):
-    pokemon_data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{context.fetched_name}").json()
-    stats = ["hp", "attack", "defense", "special_attack", "special_defense", "speed"]
-    expected_model = {name: value["base_stat"] for name, value in zip(stats, pokemon_data["stats"])}
-    actual_model = context.response.json()["stats"]
-    assert_valid_model(expected_model, actual_model)
+    for test_case in context.fetched:
+        pokemon_data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{test_case.name}").json()
+        stats = ["hp", "attack", "defense", "special_attack", "special_defense", "speed"]
+        expected_model = {name: value["base_stat"] for name, value in zip(stats, pokemon_data["stats"])}
+        actual_model = test_case.response.json()["stats"]
+        assert_valid_model(expected_model, actual_model)
 
 
 @then("models named {expected_names_raw} received")
