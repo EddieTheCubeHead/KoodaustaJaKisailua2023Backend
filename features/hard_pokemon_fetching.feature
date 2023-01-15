@@ -208,3 +208,12 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", medium featu
     basculegion, 902, Lose at least 294 hp from recoil without fainting, []
     """
 
+  Scenario: Getting use item with no localization evolution information
+    When getting /pokemon/scyther
+    Then the following evolution chain is received
+    """
+    scyther, 123, , [scizor, kleavor]
+    scizor, 212, Trade while is holding the item Metal Coat, []
+    kleavor, 900, Use the item black-augurite, []
+    """
+
