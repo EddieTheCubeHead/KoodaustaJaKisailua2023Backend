@@ -24,7 +24,7 @@ jobs:
 
     - name: Test and score team solution
       run: |
-        behave --junit
+        behave -D repetitions=5 --junit
 
     - name: Create team result report
       uses: dorny/test-reporter@v1

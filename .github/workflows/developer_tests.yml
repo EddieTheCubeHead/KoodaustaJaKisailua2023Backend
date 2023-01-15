@@ -24,7 +24,7 @@ jobs:
 
     - name: Run tests
       run: |
-        behave --junit
+        behave -D repetitions=30 --junit
 
     - name: Create test report
       uses: dorny/test-reporter@v1
