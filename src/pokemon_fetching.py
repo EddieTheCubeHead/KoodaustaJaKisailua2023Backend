@@ -1,9 +1,9 @@
 import requests
 
-from application import API_URL
-from deserialization import deserialize_pokemon, deserialize_evolution_chain
-from models import Pokemon, EvolutionChain
-from pokeapi_client import get
+from src.application import API_URL
+from src.deserialization import deserialize_pokemon, deserialize_evolution_chain
+from src.models import Pokemon, EvolutionChain
+from src.pokeapi_client import get
 
 
 def get_species_pokedex_number(species_url: str) -> int | None:

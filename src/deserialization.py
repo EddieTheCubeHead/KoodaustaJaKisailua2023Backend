@@ -1,6 +1,6 @@
 from src.evolution_parsing import deserialize_chain_member
-from src.models import GrowthRate, GrowthRateExperienceLevel, ListPokemon, Pokemon, PokemonSpecies, PokemonSpeciesGrowthRate, \
-    EvolutionChain, Stats, Type
+from src.models import GrowthRate, GrowthRateExperienceLevel, ListPokemon, Pokemon, PokemonSpecies, \
+    PokemonSpeciesGrowthRate, EvolutionChain, Stats, Type
 from src.type_relations_parsing import RelationType, parse_multipliers
 
 

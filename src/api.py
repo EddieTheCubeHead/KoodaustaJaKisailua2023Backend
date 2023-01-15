@@ -1,12 +1,12 @@
-from pokemon_fetching import get_pokemon_data, try_get_default_variety
+from src.pokemon_fetching import get_pokemon_data, try_get_default_variety
 from src.application import API_URL
 from src.pokeapi_client import get
 from src.experiences import add_experience, get_experience
 
 from src.deserialization import deserialize_growth_rate, deserialize_list_pokemon, deserialize_pokemon_species, \
-    deserialize_evolution_chain, deserialize_type
+    deserialize_type
 from src.models import GrowthRate, ListPokemon, Pokemon, PokemonList, PokemonSpecies, Type, WinBattle, \
-    WinBattleParams, GrowthRateExperienceLevel, EvolutionChain, TypeMatrix
+    WinBattleParams, GrowthRateExperienceLevel, TypeMatrix
 
 
 def get_pokemon(name: str) -> Pokemon:
