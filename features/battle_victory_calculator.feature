@@ -1,6 +1,9 @@
 # Created by MustacheCorp at 27/12/2022
 Feature: Calculating exp and level changes after winning a battle
-  # TODO explain feature here
+  # The backend should have a route for POST "/win-battle" that takes the winning
+  # and fainting pokémon in the request body. It should then calculate the level
+  # and experience gain if the winning pokémon were to win a fight against the
+  # fainted pokémon of given level. 
 
   Scenario: Calculating battle win
     Given data
