@@ -1,10 +1,10 @@
-from functools import lru_cache
+from functools import cache
 
 from fastapi import HTTPException
 import requests
 
 
-@lru_cache
+@cache
 def get(url: str):
     request = requests.get(url)
     if request.status_code != 200:

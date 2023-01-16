@@ -29,40 +29,30 @@ def find_deepest(dictionary: dict, parsed: dict[str: EvolutionChain]) -> dict:
     return current_branch
 
 
-def parse_evolution_from_dict(dictionary: dict) -> EvolutionChain:
-    parsed: dict[str, EvolutionChain] = {}
-    while dictionary["name"] not in parsed:
-        deepest_model = find_deepest(dictionary, parsed)
-        parsed_model = EvolutionChain(deepest_model["name"], int(deepest_model["pokedex_number"]),
-                                      deepest_model["sprite_link"], deepest_model["evolution_condition"],
-                                      [parsed[model["name"]] for model in deepest_model["evolves_to"]])
-        parsed[deepest_model["name"]] = parsed_model
-    return parsed[dictionary["name"]]
+def assert_valid_evolution(expected_evolution: EvolutionChain, actual_evolution: dict):
 
+    assert expected_evolution.name == actual_evolution["name"], \
+        f"Expected evolution model name to be {expected_evolution.name}, but was {actual_evolution['name']}"
 
-def assert_valid_evolution(expected_evolution: EvolutionChain, actual_evolution: EvolutionChain):
+    assert expected_evolution.pokedex_number == actual_evolution["pokedex_number"], \
+        f"Expected {actual_evolution['name']} evolution model pokedex number to be " \
+        f"{expected_evolution.pokedex_number}, but was {actual_evolution['pokedex_number']}"
 
-    assert expected_evolution.name == actual_evolution.name, \
-        f"Expected evolution model name to be {expected_evolution.name}, but was {actual_evolution.name}"
+    assert expected_evolution.sprite_link == actual_evolution["sprite_link"], \
+        f"Expected {actual_evolution['name']} evolution model sprite link to be " \
+        f"{expected_evolution.sprite_link}, but was {actual_evolution['sprite_link']}"
 
-    assert expected_evolution.pokedex_number == actual_evolution.pokedex_number, \
-        f"Expected {actual_evolution.name} evolution model pokedex number to be " \
-        f"{expected_evolution.pokedex_number}, but was {actual_evolution.pokedex_number}"
-
-    assert expected_evolution.sprite_link == actual_evolution.sprite_link, \
-        f"Expected {actual_evolution.name} evolution model sprite link to be " \
-        f"{expected_evolution.sprite_link}, but was {actual_evolution.sprite_link}"
-
-    assert expected_evolution.evolution_condition == actual_evolution.evolution_condition, \
-        f"Expected {actual_evolution.name} evolution model evolution condition to be " \
-        f"{expected_evolution.evolution_condition}, but was {actual_evolution.evolution_condition}"
+    assert expected_evolution.evolution_condition == actual_evolution["evolution_condition"], \
+        f"Expected {actual_evolution['name']} evolution model evolution condition to be " \
+        f"{expected_evolution.evolution_condition}, but was {actual_evolution['evolution_condition']}"
 
     for expected_evolves_to in expected_evolution.evolves_to:
         actual_evolves_to \
-            = next((model for model in actual_evolution.evolves_to if model.name == expected_evolves_to.name), None)
+            = next((model for model in actual_evolution["evolves_to"] if model["name"] == expected_evolves_to.name),
+                   None)
         assert actual_evolves_to is not None, \
             f"Expected to find evolution named {expected_evolves_to.name} in evolutions for evolution model named " \
-            f"{actual_evolution.name}, but only found {[model.name for model in actual_evolution.evolves_to]}"
+            f"{actual_evolution['name']}, but only found {[model['name'] for model in actual_evolution['evolves_to']]}"
         assert_valid_evolution(expected_evolves_to, actual_evolves_to)
 
 
@@ -73,5 +63,4 @@ def sanitize(text):
 @then("the following evolution chain is received")
 def step_impl(context: Context):
     expected_evolution_model = parse_evolution_from_text(sanitize(context.text))
-    actual_evolution_model = parse_evolution_from_dict(context.response.json()["evolution_chain"])
-    assert_valid_evolution(expected_evolution_model, actual_evolution_model)
+    assert_valid_evolution(expected_evolution_model, context.response.json()["evolution_chain"])
