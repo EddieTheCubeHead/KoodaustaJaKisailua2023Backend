@@ -109,8 +109,8 @@ This set of features is worth 4 points.
 ### <a id="pokehard" /> Challenging features
 
 The challenging requirement of fetching a pokémon's data is providing the pokémon's evolution chain data in a field 
-named `evolution_chain`. The evolution chain should be a tree-like model, with each node consisting of the following
-fields:
+named `evolution_chain` in the pokémon mode. The evolution chain should be a nullable tree-like model. The model 
+should be null if the pokémon has no evolution chain. Each node should consist of the following fields:
 
  - `name`: Contains the name of the pokémon whose evolution data this node contains
  - `pokedex_number`: Contains the pokédex number of the pokémon whose evolution data this node contains
@@ -175,16 +175,19 @@ after this feature is implemented:
 {
    "name": "name1",
    "pokedex_number": 1,
+   "sprite_link": "www.sprite1.link",
    "evolution_condition": "Text here",
    "evolves_to": [
       {
          "name": "name2",
          "pokedex_number": 2,
+         "sprite_link": "www.sprite2.link",
          "evolution_condition": "Text here",
          "evolves_to": [
             {
                "name": "name3",
                "pokedex_number": 3,
+               "sprite_link": "www.sprite3.link",
                "evolution_condition": "Text here",
                "evolves_to": []
             }
@@ -193,11 +196,13 @@ after this feature is implemented:
       {
          "name": "name4",
          "pokedex_number": 4,
+         "sprite_link": "www.sprite4.link",
          "evolution_condition": "Text here",
          "evolves_to": [
             {
                "name": "name5",
                "pokedex_number": 5,
+               "sprite_link": "www.sprite.link",
                "evolution_condition": "Text here",
                "evolves_to": []
             }
@@ -250,6 +255,10 @@ The whole model returned from the route should look like this after this feature
    ...
 ]
 ```
+
+If the route is called without provided start or end values, the defaults should be start=0, end=10. The route 
+should return an empty list if end is smaller than start.
+
 This feature is worth 4 points.
 
 ---
@@ -384,10 +393,10 @@ json in the request body:
 
 ```
 {
-    "winner_name": str,
+    "winner_name": "name1",
     "fainted": {
-        "name": str,
-        "level": int
+        "name": "name2",
+        "level": 0
     }
 }
 ```
@@ -400,8 +409,8 @@ pokémon's new level and experience in the following model:
 
 ```
 {
-    "level": int
-    "experience": int
+    "level": 0
+    "experience": 0
 }
 ```
 
