@@ -30,6 +30,7 @@ different difficulty levels. These categories and difficulties are the following
    - [Intermediate](#typehard)
    - [Challenging](#typematrix)
  - [Battle level gain](#battle-level-gain)
+ - [Error handling](#error-handling)
 
 Please also read through the [Rules and clarifications](#rules-and-clarifications) section.
 
@@ -317,7 +318,7 @@ implemented:
 }
 ```
 
-This feature is worth 5 points.
+This feature is worth 3 points.
 
 ---
 
@@ -420,6 +421,17 @@ To get the full points from this feature, the server should also be able to reme
 When the endpoint is called again with `winner_name` that it has seen earlier, it should perform the equation using the 
 stored level and experience. If the pokémon has not won before, its experience is at its base_experience and level depends
 on the growth rate of the pokémon. This should be done with an in-memory database so that it is reset between runs.
+
+This feature is worth 5 points.
+
+---
+
+---
+
+## Error handling
+
+The server should return 404 - Not found, if the resource requested is not available. This should be implemented for
+all routes that have variable data, as well as routes that don't exist
 
 This feature is worth 6 points.
 

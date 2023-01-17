@@ -33,14 +33,10 @@ Feature: Fetching pokemon by name from the route "/pokemon/{name}", basic level
       | name      | id  |
       | ditto     | 132 |
 
-    # Add examples here to fill the point requirements
+    Examples: Deoxys-Normal
+      | name          | id  |
+      | deoxys-normal | 386 |
 
-  # Duplicate this if deemed necessary
   Scenario: Getting a random pokemon from the /pokemon route with base information
     When fetching a random base pokemon from /pokemon/name
     Then pokemon name and artwork link returned
-
-  Scenario: Getting a pokemon that does not exist
-    When getting /pokemon/pikacu
-    Then 404 is received
-

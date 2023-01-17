@@ -87,17 +87,3 @@ Feature: Calculating exp and level changes after winning a battle
     """
     When posting /win-battle
     Then 404 is received
-
-  Scenario: Calculating battle win with fainted that does not exist
-    Given data
-    """
-    {
-      "winner_name": "bulbasaur",
-      "fainted": {
-        "name": "pikacu",
-        "level": 5
-      }
-    }
-    """
-    When posting /win-battle
-    Then 404 is received
