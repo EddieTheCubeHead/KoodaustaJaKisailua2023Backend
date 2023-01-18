@@ -19,8 +19,8 @@ Feature: Calculating exp and level changes after winning a battle
     When posting /win-battle
     Then the following data is received
       | data field     | field value |
-      | level          | 8           |
-      | experience     | 239         |
+      | level          | 5           |
+      | experience     | 128         |
 
   Scenario: Calculating battle win stores experience and level
     Given data
@@ -36,8 +36,8 @@ Feature: Calculating exp and level changes after winning a battle
     When posting /win-battle
     Then the following data is received
       | data field     | field value |
-      | level          | 10          |
-      | experience     | 523         |
+      | level          | 9           |
+      | experience     | 334         |
 
   Scenario: Calculating battle win for another pokemon
     Given data
@@ -53,8 +53,8 @@ Feature: Calculating exp and level changes after winning a battle
     When posting /win-battle
     Then the following data is received
       | data field     | field value |
-      | level          | 8           |
-      | experience     | 250         |
+      | level          | 6           |
+      | experience     | 152         |
 
   Scenario: Calculating battle win for another pokemon stores experience and level
     Given data
@@ -70,8 +70,8 @@ Feature: Calculating exp and level changes after winning a battle
     When posting /win-battle
     Then the following data is received
       | data field     | field value |
-      | level          | 11          |
-      | experience     | 620         |
+      | level          | 9           |
+      | experience     | 412         |
 
 
   Scenario: Calculating battle win with winner that does not exist
